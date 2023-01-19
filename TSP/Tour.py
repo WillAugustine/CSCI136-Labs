@@ -12,15 +12,20 @@ class Node:
 class Tour:
     def __init__(self):
         #self.tour = []
-        self.tour = Node()
+        self.tour = None
 
     def getXY(self, p):
         XY = [p.x, p.y]
         return XY
 
     def show(self):
-        for stop in self.tour:
-            print(f"({stop.x} {stop.y})")
+        tour = self.tour
+        while tour is not None:
+            print(tour)
+            tour = tour.next
+
+        # for stop in self.tour:
+        #     print(f"({stop.x} {stop.y})")
 
     def draw(self):
         size = len(self.tour)
@@ -41,10 +46,10 @@ class Tour:
     def size(self):
         count = 0
         tour = self.tour
-        while not tour.next is None:
+        while tour.next != None:
             count += 1
             tour = tour.next
-        print(count)
+        #print(count)
         return count
         #return len(self.tour)
 
@@ -65,11 +70,10 @@ class Tour:
         newNode = Node()
         newNode.p = p
         newNode.next = None
-        if self.tour.p == None:
+        if self.tour == None:
             self.tour = newNode
         else:
-            self.tour.next = newNode.p
-
+            self.tour.next = newNode
         #self.tour.append(p)
 
     
@@ -79,6 +83,7 @@ class Tour:
         for point in self.tour:
             currX, currY = self.getXY(point)[0], self.getXY(point)[1]
             currDistance = self.distance(x, y, currX, currY)
+            
     # add p after closest point
     def insertNearest(self, p):
         pass
@@ -102,7 +107,9 @@ if __name__ == "__main__":
     tour.insertInOrder(c)
     tour.insertInOrder(d)
 
-    tour.show()
+    print(f"The current tour is:\n{tour.show()}")
+
+    print(f"The size of the current tour is {tour.size()}")
     
 
 
