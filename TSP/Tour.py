@@ -1,5 +1,8 @@
 import StdDraw
-import Point
+from Point import Point
+import pygame
+import math
+import sys
 
 class Node:
     def __init__(self):
@@ -8,30 +11,98 @@ class Node:
 
 class Tour:
     def __init__(self):
-        self.tour = []
+        #self.tour = []
+        self.tour = Node()
+
+    def getXY(self, p):
+        XY = [p.x, p.y]
+        return XY
 
     def show(self):
         for stop in self.tour:
-            print(stop)
+            print(f"({stop.x} {stop.y})")
 
     def draw(self):
-        pass
+        size = len(self.tour)
+        for i in range(0, size-1):
+            x1, y1 = self.getXY(self.tour[i])[0], self.getXY(self.tour[i])[1]
+            x2, y2 = self.getXY(self.tour[i+1])[0], self.getXY(self.tour[i+1])[1]
+
+            #print(f"({x1}, {y1}) -> ({x2}, {y2})")
+            StdDraw.line(x1, y1, x2, y2)
+
+        x1, y1 = self.getXY(self.tour[size-1])[0], self.getXY(self.tour[size-1])[1]
+        x2, y2 = self.getXY(self.tour[0])[0], self.getXY(self.tour[0])[1]
+
+        #print(f"({x1}, {y1}) -> ({x2}, {y2})")
+        StdDraw.line(x1, y1, x2, y2)
 
     # return int
     def size(self):
-        return len(self.tour)
+        count = 0
+        tour = self.tour
+        while not tour.next is None:
+            count += 1
+            tour = tour.next
+        print(count)
+        return count
+        #return len(self.tour)
 
     # return float
     def distance(self):
-        pass
+        totalDistance = 0.0
+        size = len(self.tour)
+        for i in range(0, size-1):
+            x1, y1 = self.getXY(self.tour[i])[0], self.getXY(self.tour[i])[1]
+            x2, y2 = self.getXY(self.tour[i+1])[0], self.getXY(self.tour[i+1])[1]
+            totalDistance += math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+        x1, y1 = self.getXY(self.tour[size-1])[0], self.getXY(self.tour[size-1])[1]
+        x2, y2 = self.getXY(self.tour[0])[0], self.getXY(self.tour[0])[1]
+        totalDistance += math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+        return totalDistance
 
     def insertInOrder(self, p):
-        self.tour.append(p)
+        newNode = Node()
+        newNode.p = p
+        newNode.next = None
+        if self.tour.p == None:
+            self.tour = newNode
+        else:
+            self.tour.next = newNode.p
 
+        #self.tour.append(p)
+
+    
+    def findClosest(self, p):
+        x, y = self.getXY(p)[0], self.getXY(p)[1]
+        smallestDistance = 0
+        for point in self.tour:
+            currX, currY = self.getXY(point)[0], self.getXY(point)[1]
+            currDistance = self.distance(x, y, currX, currY)
+    # add p after closest point
     def insertNearest(self, p):
         pass
 
+    # add p where tour results in smallest tour length
     def insertSmallest(self, p):
         pass
+
+if __name__ == "__main__":
+    #filename = sys.argv[1]
+
+    tour = Tour()
+
+    a = Point(100.0, 100.0)
+    b = Point(500.0, 100.0)
+    c = Point(500.0, 500.0)
+    d = Point(100.0, 500.0)
+
+    tour.insertInOrder(a)
+    tour.insertInOrder(b)
+    tour.insertInOrder(c)
+    tour.insertInOrder(d)
+
+    tour.show()
+    
 
 
