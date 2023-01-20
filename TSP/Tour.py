@@ -1,3 +1,10 @@
+#
+# Author: Will Augustine, CS Student at Montana Tech
+# Description: Complete solution of the CSCI 136 Spring 2023
+#   Traveling Sales Person (TSP) lab
+#
+
+
 import StdDraw
 from Point import Point
 import pygame
