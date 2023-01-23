@@ -5,7 +5,7 @@
 #
 
 import os
-os.environ["SDL_VIDEODRIVER"] = "dummy"
+#os.environ["SDL_VIDEODRIVER"] = "dummy"
 import StdDraw
 from Point import Point
 import pygame
@@ -20,11 +20,13 @@ class Node:
         # self.next represents what that node points to (the next node)
         self.next = None
 
-# Class for the linked list made up of nodes
+# Class for the linked list made up of nodes (circular)
 class Tour:
     def __init__(self):
-        # The starting tour is empty
+        # The starting tour is empty 
         self.tour = None
+        # Counter to 
+        self.length = 0
     
     # Function to get the size of the linked list
     def size(self):
@@ -33,19 +35,24 @@ class Tour:
             return 0
         # Otherwise, traverse through the linked list and return the count
         else:
-            count = 0
+            firstNode = self.tour
+            count = 1
             # Create copy of self.tour so the starting place never changes
             node = self.tour
             # While the current node is not empty
-            while node != None:
+            while node.next != firstNode:
                 # Set the node to 
                 node = node.next
+                # Increment count
                 count += 1
+            # Return the size of the linked list
             return count
     
+    # Method to show each item in the tour
     def show(self):
+        firstNode = self.tour
         node = self.tour
-        while node.next != None:
+        while node.next != firstNode:
             print(node.p.toString())
             node = node.next
         print(f"{node.p.toString()}\n")
@@ -54,7 +61,7 @@ class Tour:
         totalDistance = 0
         node = self.tour
         firstNode = node
-        while node.next != None:
+        while node.next != firstNode:
             totalDistance += node.p.distanceTo(node.next.p)
             node = node.next
         totalDistance += node.p.distanceTo(firstNode.p)
@@ -62,8 +69,8 @@ class Tour:
 
     def draw(self):
         node = self.tour
-        firstNode = node
-        while node.next != None:
+        firstNode = self.tour
+        while node.next != firstNode:
             node.p.drawTo(node.next.p)
             node = node.next
         node.p.drawTo(firstNode.p)
@@ -72,34 +79,62 @@ class Tour:
         newNode = Node()
         newNode.p = p
         if self.tour == None:
+            newNode.next = newNode
             self.tour = newNode
         else:
+            firstNode = self.tour
             temp = self.tour
-            while temp.next != None:
+            while temp.next != firstNode:
                 temp = temp.next
+            newNode.next = firstNode
             temp.next = newNode
+
 
     def insertNearest(self, p):
-        newNode = Node()
-        newNode.p = p
-        if self.tour == None:
-            self.tour = newNode
+        """Insert point p using nearest neighbor heuristic."""
+        node = Node()
+        node.p = p
+        if not self.tour:
+            self.tour = node
+            self.tour.next = self.tour
         else:
-            temp = self.tour
-            while temp.next != None:
-                temp = temp.next
-            temp.next = newNode
+            current = self.tour            
+            bestDist = float('inf')
+            # Walks through list and searches for the 
+            # location that is closet to the new node
+            for x in range(self.length):
+                distance = current.p.distanceTo(node.p)
+                if distance < bestDist:
+                    bestDist = distance
+                    bestNode = current  
+                current = current.next
+            node.next = bestNode.next  # Links new node up, order is important
+            bestNode.next = node
 
     def insertSmallest(self, p):
-        newNode = Node()
-        newNode.p = p
-        if self.tour == None:
-            self.tour = newNode
+        """Insert point p using smallest increase heuristic."""
+        node = Node()
+        node.p = p
+        if not self.tour:
+            self.tour = node
+            self.tour.next = self.tour
         else:
-            temp = self.tour
-            while temp.next != None:
-                temp = temp.next
-            temp.next = newNode
+            current = self.tour            
+            bestDist = float('inf')
+            # Walks through list searching for the point that 
+            # would decrease the total tour amount the greatest.
+            for x in range(self.length):
+                distance = self.distance() + \
+                           current.p.distanceTo(node.p) + \
+                           current.next.p.distanceTo(node.p) - \
+                           current.next.p.distanceTo(current.p)
+                if distance < bestDist:
+                    bestDist = distance
+                    bestNode = current  
+                current = current.next
+            node.next = bestNode.next
+            bestNode.next = node
+        self.length += 1
 
 if __name__ == "__main__":
     tour = Tour()
