@@ -94,6 +94,7 @@ class Tour:
         """Insert point p using nearest neighbor heuristic."""
         node = Node()
         node.p = p
+        bestNode = Node()
         if not self.tour:
             self.tour = node
             self.tour.next = self.tour
@@ -137,27 +138,28 @@ class Tour:
         self.length += 1
 
 if __name__ == "__main__":
-    tour = Tour()
-    a = Point(100.0, 100.0)
-    b = Point(500.0, 100.0)
-    c = Point(500.0, 500.0)
-    d = Point(100.0, 500.0)
+    # tour = Tour()
+    # a = Point(100.0, 100.0)
+    # b = Point(500.0, 100.0)
+    # c = Point(500.0, 500.0)
+    # d = Point(100.0, 500.0)
 
-    tour.insertInOrder(a)
-    tour.insertInOrder(b)
-    tour.insertInOrder(c)
-    tour.insertInOrder(d)
+    # tour.insertInOrder(a)
+    # tour.insertInOrder(b)
+    # tour.insertInOrder(c)
+    # tour.insertInOrder(d)
 
-    print("The current tour is:")
-    tour.show()
+    # print("The current tour is:")
+    # tour.show()
 
-    print(f"The size of the current tour is {tour.size()}")
+    # print(f"The size of the current tour is {tour.size()}")
     
-    print(f"The distance of the current tour is {tour.distance()}")
+    # print(f"The distance of the current tour is {tour.distance()}")
 
-    StdDraw.setCanvasSize(600,600)
-    StdDraw.setXscale(0, 600)
-    StdDraw.setYscale(0, 600)
-    tour.draw()
-    StdDraw.show(1000)
-    StdDraw.save("test.png")
+    # StdDraw.setCanvasSize(600,600)
+    # StdDraw.setXscale(0, 600)
+    # StdDraw.setYscale(0, 600)
+    # tour.draw()
+    # StdDraw.show(1000)
+    # StdDraw.save("test.png")
+    pass
