@@ -23,30 +23,21 @@ class Node:
 # Class for the linked list made up of nodes (circular)
 class Tour:
     def __init__(self):
-        # The starting tour is empty 
-        self.tour = None
-        # Counter to 
-        self.length = 0
+        
+        self.tour = None # The starting tour is empty 
     
     # Function to get the size of the linked list
     def size(self):
-        # If the linked list is empty, return 0 as the length
-        if self.tour == None:
+        if self.tour == None: # If the linked list is empty, return 0 as the length
             return 0
-        # Otherwise, traverse through the linked list and return the count
-        else:
+        else: # Otherwise, traverse through the linked list and return the count
             firstNode = self.tour
             count = 1
-            # Create copy of self.tour so the starting place never changes
-            node = self.tour
-            # While the current node is not empty
-            while node.next != firstNode:
-                # Set the node to 
-                node = node.next
-                # Increment count
-                count += 1
-            # Return the size of the linked list
-            return count
+            node = self.tour # Create copy of self.tour so the starting place never changes
+            while node.next != firstNode: # While the current node is not empty
+                node = node.next # Set the node to the next node
+                count += 1 # Increment count
+            return count # Return the size of the linked list
     
     # Method to show each item in the tour
     def show(self):
@@ -103,7 +94,7 @@ class Tour:
             bestDist = float('inf')
             # Walks through list and searches for the 
             # location that is closet to the new node
-            for x in range(self.length):
+            for x in range(self.size()):
                 distance = current.p.distanceTo(node.p)
                 if distance < bestDist:
                     bestDist = distance
@@ -124,7 +115,7 @@ class Tour:
             bestDist = float('inf')
             # Walks through list searching for the point that 
             # would decrease the total tour amount the greatest.
-            for x in range(self.length):
+            for x in range(self.size()):
                 distance = self.distance() + \
                            current.p.distanceTo(node.p) + \
                            current.next.p.distanceTo(node.p) - \
@@ -135,7 +126,6 @@ class Tour:
                 current = current.next
             node.next = bestNode.next
             bestNode.next = node
-        self.length += 1
 
 if __name__ == "__main__":
     # tour = Tour()
