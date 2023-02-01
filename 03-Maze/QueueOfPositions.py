@@ -1,3 +1,4 @@
+from Position import Position
 class Node:
 
     def __init__(self):
@@ -11,9 +12,9 @@ class QueueOfStrings:
         self.last  = None
 
     # Add a new string to the queue
-    def enqueue(self, s):
+    def enqueue(self, position):
         node = Node()
-        node.item = s
+        node.item = position
         node.next = None
 
         if self.last != None:
@@ -31,15 +32,14 @@ class QueueOfStrings:
         self.first = self.first.next
         if self.first == None:
             self.last = None
-        return result
+        return result.toString()
 
     # Return a string representation of the queue	
     def toString(self):
         result = ""
         current = self.first
         while current != None:
-            result += current.item
-            result += " "
+            result += current.item.toString()
             current = current.next
         return result
 	
@@ -49,18 +49,21 @@ class QueueOfStrings:
 # main method for testing out the class
 if __name__ == "__main__":
     q = QueueOfStrings()
-
+    a = Position(0,0)
+    b = Position(2,0)
+    c = Position(2,2)
+    d = Position(0,2)
     print("queue = " + q.toString())
-
-    q.enqueue("this")
+    
+    q.enqueue(a)
     print(q.toString())
 
     print("dequeue = " + q.dequeue())
     print(q.toString())
 
-    q.enqueue("a")
-    q.enqueue("b")
-    q.enqueue("c")
+    q.enqueue(b)
+    q.enqueue(c)
+    q.enqueue(d)
     print(q.toString())
 
     print("dequeue = " + q.dequeue())
