@@ -15,4 +15,6 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
   - [Tour.py](02-TSP/Tour.py)
   
 - Lab 3 - Maze:
-  - [Maze.py](03-Maze/Maze.py)
+  - [Solve.py](03-Maze/Solve.py)
+  - [StackOfPositions.py](03-Maze/StackOfPositions.py)
+  - [QueueOfPositions.py](03-Maze/QueueOfPositions.py)
