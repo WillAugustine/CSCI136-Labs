@@ -62,4 +62,4 @@ class Position:
     # @return the String representation of the Position
     #
     def toString(self):
-        return str(self.x) + ", " + str(self.y) + "\n"
+        return str(self.x) + ", " + str(self.y)
