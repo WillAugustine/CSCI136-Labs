@@ -1,3 +1,9 @@
+#   
+#   Author: Doug Galarus
+#   Modified by: Will Augustine
+#   Description: A class to create a stack of positions
+#
+
 from Position import Position
 
 class Node:
