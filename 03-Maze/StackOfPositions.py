@@ -1,3 +1,9 @@
+#   
+#   Author: Doug Galarus
+#   Modified by: Will Augustine
+#   Description: A class to create a stack of positions
+#
+
 from Position import Position
 
 class Node:
@@ -26,7 +32,7 @@ class StackOfPositions:
             print("Stack is empty!") # print that the stack is empty
         result = self.first.item # Item popped is the first item on the stack
         self.first = self.first.next # Update what the first node in the stack is
-        return result.toString() # Return a string representation of position popped
+        return result # Return the position node popped
 
     # Return a string representation of the stack	
     def toString(self):
