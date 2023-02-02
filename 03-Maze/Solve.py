@@ -13,31 +13,31 @@ class Solve:
         self.MAX_POSITION = size
 
     def getNextPosition(self, currPosition):
-        nextPoint = currPosition
+        currPosition
         if self.maze.openNorth(currPosition):
-            if nextPoint.y + 1 <= self.MAX_POSITION:
-                nextPoint.y += 1
-            if not self.maze.isVisited(nextPoint):
-                return nextPoint
+            if currPosition.y + 1 <= self.MAX_POSITION:
+                nextPoint = Position(currPosition.getX(), currPosition.getY() + 1)
+                if not self.maze.isVisited(nextPoint):
+                    return nextPoint
 
         elif self.maze.openEast(currPosition):
-            if nextPoint.x + 1 <= self.MAX_POSITION:
-                nextPoint.x += 1
-            if not self.maze.isVisited(nextPoint):
-                return nextPoint
+            if currPosition.x + 1 <= self.MAX_POSITION:
+                nextPoint = Position(currPosition.getX() + 1, currPosition.getY())
+                if not self.maze.isVisited(nextPoint):
+                    return nextPoint
 
         elif self.maze.openSouth(currPosition):
-            if nextPoint.y - 1 >= 0:
-                nextPoint.y -= 1
-            if not self.maze.isVisited(nextPoint):
-                return nextPoint
+            if currPosition.y - 1 >= 0:
+                nextPoint = Position(currPosition.getX(), currPosition.getY() - 1)
+                if not self.maze.isVisited(nextPoint):
+                    return nextPoint
 
         elif self.maze.openWest(currPosition):
-            if nextPoint.x - 1 >= 0:
-                nextPoint.x -= 1
-            if not self.maze.isVisited(nextPoint):
-                return nextPoint
-        
+            if currPosition.x - 1 >= 0:
+                nextPoint = Position(currPosition.getX() - 1, currPosition.getY())
+                if not self.maze.isVisited(nextPoint):
+                    return nextPoint
+    
         return None
 
     def solveWithQueue(self):
@@ -50,12 +50,12 @@ class Solve:
         currentPoint = startingPoint
         while not currentPoint.equals(endingPoint):
             nextPoint = self.getNextPosition(currentPoint)
-            
             if nextPoint == None:
-                self.queue.dequeue()
+                currentPoint = self.queue.dequeue()
                 # self.maze.clear()
                 print("DEQUEING")
             else:
+                nextPoint.draw(StdDraw.)
                 self.queue.enqueue(nextPoint)
                 self.maze.setVisited(nextPoint)
                 print(f"({currentPoint.toString()}) -> ({nextPoint.toString()})")

@@ -126,7 +126,7 @@ class Maze:
     # @return the finish Position
     #
     def getFinish(self):
-    	return self.finish
+        return self.finish
     
     #
     # Check to see if there is no wall to the north

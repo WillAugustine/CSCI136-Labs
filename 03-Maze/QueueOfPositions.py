@@ -32,7 +32,7 @@ class QueueOfPositions:
         self.first = self.first.next # Update the first node in the queue
         if self.first == None: # If the queue is now empty
             self.last = None # The last item is also empty
-        return result.toString() # Return string representation of node dequeued
+        return result # Return string representation of node dequeued
 
     # Return a string representation of the queue	
     def toString(self):
