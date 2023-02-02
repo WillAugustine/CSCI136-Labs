@@ -1,3 +1,13 @@
+#   
+#   Author: Will Augustine
+#   Description: A class to solve a maze with a stack and then a queue
+#  
+#   Example of calling Solve.py:
+#       "python Solve.py 5" to solve a 5x5 maze
+#       "python Solve.py 8" to solve a 8x8 maze
+#
+#
+#
 import sys
 from QueueOfPositions import QueueOfPositions as Queue
 from StackOfPositions import StackOfPositions as Stack
