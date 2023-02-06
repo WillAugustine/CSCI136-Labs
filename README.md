@@ -18,3 +18,6 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
   - [Solve.py](03-Maze/Solve.py)
   - [StackOfPositions.py](03-Maze/StackOfPositions.py)
   - [QueueOfPositions.py](03-Maze/QueueOfPositions.py)
+
+- Lab 4 - Mind Reader:
+  - [MindReader.py](04-MindReader/MindReader.py)
