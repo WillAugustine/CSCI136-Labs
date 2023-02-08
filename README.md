@@ -6,6 +6,7 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
 - Lab 1: [Benford](LabInstructions/CSCI136FundamentalsOfCS2-2023-01-11-Assignment1-Benford-rev2.pdf)
 - Lab 2: [Traveling Sales Person - TSP](LabInstructions/CSCI136FundamentalsOfCS2-2023-01-18-Assignment2-TSP.pdf)
 - Lab 3: [Solving Mazes Using Stacks and Queues - Maze](LabInstructions/CSCI136FundamentalsOfCS2-2023-01-28-Assignment3-Mazes-b.pdf)
+- Lab 4: [Mind Reader](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-08-Assignment4-MindReader.pdf)
 
 ## Lab Solutions:
 - Lab 1 - Benford:
