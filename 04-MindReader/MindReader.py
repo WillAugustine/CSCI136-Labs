@@ -24,9 +24,9 @@ class MindReader:
     #
     # Initializer for the MindReader class
     #
-    # Inputs: None
+    # Inputs: int maxScore - the maximum score you will play until
     #    
-    def __init__(self):
+    def __init__(self, maxScore):
         ''' notes for self.history:
             key: String of past four guesses (ex. 'TTTT' or 'HHTH')
             value: two element list of number of times user guesses heads and tails after key string
@@ -40,6 +40,7 @@ class MindReader:
         self.computerScore = 0 # Stores the computer's score
         self.userInput = "" # Stores the player's input
         self.computerPrediction = "" # Stores the computer's prediction
+        self.maxScore = maxScore # Stores the maximum score possible
 
     #
     # Updates the self.pastFourGuesses variable using self.userInput
@@ -57,6 +58,8 @@ class MindReader:
     # Input: None
     #   
     def updateHistory(self):
+        if len(self.pastFourGuesses) < 4:
+            return
         lastFourString = "".join(self.pastFourGuesses) # Turns array of self.pastFourGuesses into combined string
         if lastFourString not in self.history: # If the last four guesses have not been guessed before
             self.history[lastFourString] = [1,0] if (self.userInput == "H") else [0,1] # Add it to the self.history dictionary
@@ -73,7 +76,7 @@ class MindReader:
     #
     def getUserInput(self):
         while self.userInput not in ['h','t','H','T']: # If the input is not 'h', 't', 'H', or 'T'
-            self.userInput = input("Enter H for heads or T for tails: ") # Ask for the user's input and update self.userInput
+            self.userInput = input("Please enter H for heads or T for tails: ") # Ask for the user's input and update self.userInput
         if self.userInput.islower(): # If the user's input was lowercase
             self.userInput = self.userInput.upper() # Make the user's input uppercase
 
@@ -131,35 +134,47 @@ class MindReader:
         self.userInput = "" # Reset user input
         self.computerPrediction = "" # Reset computer prediction
 
+    # 
+    # Prints the instructions on how to play the game followed by a new line
+    #
+    # Input: None
+    #
+    def printInstructions(self):
+        print("(Instructions for playing...)\n")
+        
     #
     # Plays the MindReader game until one score reaches 20
     #
     # Input: None
     #
     def playGame(self):
-        while (self.playerScore < 20) and (self.computerScore < 20): # While both scores are less than 20
-            self.getUserInput() # Gets the user input
+        self.printInstructions() # Prints the instructions on how to play
+        while (self.playerScore < self.maxScore) and (self.computerScore < self.maxScore): # While both scores are less than 20
+            print("Your Turn.") # Prints that it is your turn
             self.getComputerPrediction() # Gets the computer prediction
-            print(f"Computer predicted: {self.computerPrediction} Player chose: {self.userInput}") # Prints what input/prediction was
+            self.getUserInput() # Gets the user input
+            print(f"The computer predicted {self.computerPrediction} and the player chose {self.userInput}.") # Prints what input/prediction was
             if self.computerGuessedCorrect(): # If computer guesses correctly
                 self.computerScore += 1 # Increase computer's score by 1
+                print("One point for the computer!") # Prints that the computer scored a point
             else: # If the computer guessed incorrectly
                 self.playerScore += 1 # Increase player's score by 1
-
+                print("One point for the player.") # Prints that the player scored a point
             self.updateHistory() # Updates self.history
             self.updatePastFourGuesses() # Updates self.pastFourGuesses
             self.resetGuesses() # Resets user input and computer prediction variables
 
-            print(f"Computer: {self.computerScore} Player: {self.playerScore}\n") # Prints updated scores
+            print(f"Computer: {self.computerScore} , Player: {self.playerScore}\n") # Prints updated scores
 
-        if self.playerScore == 20: # After one score reaches 20, if that score is the player's score
+        if self.playerScore == self.maxScore: # After one score reaches max score, if that score is the player's score
             print("You WIN!!!") # Print that the player wins
-        else: # If the score that hit 20 was the computer's score
+        else: # If the score that hit max score was the computer's score
             print("Computer WINS!!!") # Print that the computer wins
 
 
 if __name__ == "__main__": # If the file was executed from the command line
-    game = MindReader() # Creates object of the MindReader class
+    playUntilScore = 25 # Sets the maximum score equal to 25
+    game = MindReader(playUntilScore) # Creates object of the MindReader class
     game.playGame() # Calls playGame in the MindReader class
 
         
