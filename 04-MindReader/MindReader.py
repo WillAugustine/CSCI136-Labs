@@ -88,8 +88,8 @@ class MindReader:
     # Output: String
     #
     def getRandomGuess(self):
-        value = randint(0, 100) # Set value equal to a random number from 0-99
-        if value < 50: # If value is less than 50
+        value = randint(0, 1000) # Set value equal to a random number from 0-999
+        if value < 500: # If value is less than 500
             return "H" # Computer's guess is heads
         return "T" # Otherwise, computer's guess is tails
 
@@ -141,7 +141,7 @@ class MindReader:
     #
     def printInstructions(self):
         print("(Instructions for playing...)\n")
-        
+
     #
     # Plays the MindReader game until one score reaches 20
     #
