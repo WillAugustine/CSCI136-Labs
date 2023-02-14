@@ -7,6 +7,7 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
 - Lab 2: [Traveling Sales Person - TSP](LabInstructions/CSCI136FundamentalsOfCS2-2023-01-18-Assignment2-TSP.pdf)
 - Lab 3: [Solving Mazes Using Stacks and Queues - Maze](LabInstructions/CSCI136FundamentalsOfCS2-2023-01-28-Assignment3-Mazes-b.pdf)
 - Lab 4: [Mind Reader](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-08-Assignment4-MindReader.pdf)
+- Lab 5: [Recursive Graphs](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-15-Assignment5-Sierpinski.pdf)
 
 ## Lab Solutions:
 - Lab 1 - Benford:
@@ -22,3 +23,6 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
 
 - Lab 4 - Mind Reader:
   - [MindReader.py](04-MindReader/MindReader.py)
+  
+- Lab 5 - Recursive Graphs:
+
