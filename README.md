@@ -25,4 +25,5 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
   - [MindReader.py](04-MindReader/MindReader.py)
   
 - Lab 5 - Recursive Graphs:
-
+  - [Art.py](05-RecursiveGraphs/Art.py)
+  - [Sierpinski.py](05-RecursiveGraphs/Sierpinski.py)
