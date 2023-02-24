@@ -8,6 +8,7 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
 - Lab 3: [Solving Mazes Using Stacks and Queues - Maze](LabInstructions/CSCI136FundamentalsOfCS2-2023-01-28-Assignment3-Mazes-b.pdf)
 - Lab 4: [Mind Reader](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-08-Assignment4-MindReader.pdf)
 - Lab 5: [Recursive Graphs](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-15-Assignment5-Sierpinski.pdf)
+- Lab 6: [Ultima0](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-24-Assignment6-Ultimat0.pdf)
 
 ## Lab Solutions:
 - Lab 1 - Benford:
