@@ -32,4 +32,4 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
 - Lab 6 - Ultima 0:
   - [Avatar.py](06-Ultima0/Avatar.py)
   - [Tile.py](06-Ultima0/Tile.py)
-  - [World.py](World.py)
+  - [World.py](06-Ultima0/World.py)
