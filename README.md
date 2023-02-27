@@ -8,6 +8,7 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
 - Lab 3: [Solving Mazes Using Stacks and Queues - Maze](LabInstructions/CSCI136FundamentalsOfCS2-2023-01-28-Assignment3-Mazes-b.pdf)
 - Lab 4: [Mind Reader](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-08-Assignment4-MindReader.pdf)
 - Lab 5: [Recursive Graphs](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-15-Assignment5-Sierpinski.pdf)
+- Lab 6: [Ultima 0](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-24-Assignment6-Ultimat0.pdf)
 
 ## Lab Solutions:
 - Lab 1 - Benford:
@@ -27,3 +28,8 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
 - Lab 5 - Recursive Graphs:
   - [Art.py](05-RecursiveGraphs/Art.py)
   - [Sierpinski.py](05-RecursiveGraphs/Sierpinski.py)
+  
+- Lab 6 - Ultima 0:
+  - [Avatar.py](06-Ultima0/Avatar.py)
+  - [Tile.py](06-Ultima0/Tile.py)
+  - [World.py](06-Ultima0/World.py)
