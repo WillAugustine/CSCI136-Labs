@@ -1,65 +1,52 @@
 #
-# Author: Will Augustine
+# Author: 
 #
 # Description: 
 #
 
 from enum import Enum, auto
-from picture import Picture as pic
+import picture
 import StdDraw
 
 #Enumeration class to handle different tile types
 class TileType(Enum):
-    INVALID = None
-    FLOOR = {'filename': 'brickfloor.gif', 'opaque': False, 'passable': True}
-    LAVA = {'filename': 'lava.gif', 'opaque': False, 'passable': True}
-    WATER = {'filename': 'water.gif', 'opaque': False, 'passable': False}
-    FOREST = {'filename': 'forest.gif', 'opaque': True, 'passable': True}
-    GRASS = {'filename': 'grasslands.gif', 'opaque': False, 'passable': True}
-    MOUNTAIN = {'filename': 'mountains.gif', 'opaque': True, 'passable': False}
-    WALL = {'filename': 'stonewall.gif', 'opaque': True, 'passable': False}
+    INVALID = auto()
+    FLOOR = auto()
+    LAVA = auto()
+    WATER = auto()
+    FOREST = auto()
+    GRASS = auto()
+    MOUNTAIN = auto()
+    WALL = auto()
 
 # Class that handles all data and operations on tiles
 class Tile:
+    # Static variable associated with tiles to specity the size
+    SIZE = 16
 
     # Constructor for a tile
     #
     # Paramter is a string or character that specifies the
     #   type of tile
     def __init__(self, code):
-        self.size = 16
-        self.code = code
-        self.lit = False
-        self.attributes = TileType.INVALID.value
-        if self.code == 'B':
-            self.attributes = TileType.FLOOR.value
-        elif self.code == 'L':
-            self.attributes = TileType.LAVA.value
-        elif self.code == 'W':
-            self.attributes = TileType.WATER.value
-        elif self.code == 'F':
-            self.attributes = TileType.FOREST.value
-        elif self.code == 'G':
-            self.attributes = TileType.GRASS.value
-        elif self.code == 'M':
-            self.attributes = TileType.MOUNTAIN.value
-        elif self.code == 'S':
-            self.attributes = TileType.WALL.value
-            
+
+        ##### YOUR CODE HERE #####
+        pass
 
     # Accessor for the lit instance variable
     #
     # Returns a True if the tile is lit, False otherwise
     def getLit(self):
 
-        return self.lit
+        ##### YOUR CODE HERE #####
+        pass
 
     # Mutator for the lit instance variable
     #
     # Input parament value is a boolean variable
     def setLit(self, value):
 
-        self.lit = value
+        ##### YOUR CODE HERE #####
         pass
 
     # Does light pass through this tile
@@ -67,7 +54,8 @@ class Tile:
     # Returns True if the tile is opaque, False otherwise
     def isOpaque(self):
 
-        return self.attributes['opaque']
+        ##### YOUR CODE HERE #####
+        pass
 
     # Can the hero walk through this tile
     #
@@ -75,21 +63,17 @@ class Tile:
     #    False otherwise
     def isPassable(self):
 
-        return self.attributes['passable']
+        ##### YOUR CODE HERE #####
+        pass
 
     # Draw the tile at the given location
     #
     # Input parameters x and y are integers specifying
     #    the tile's position within the world grid
     def draw(self, x, y):
-        x = x*self.size + self.size/2
-        y = y*self.size + self.size/2
-        if self.lit:
-            tile = pic(self.attributes['filename'])
-            StdDraw.picture(tile, x, y)
-        else:
-            tile = pic('blank.gif')
-            StdDraw.picture(tile, x, y)
+
+        ##### YOUR CODE HERE #####
+        pass
 
 #
 # Main code for testing the Tile class

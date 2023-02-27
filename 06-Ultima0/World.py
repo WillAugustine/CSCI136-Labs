@@ -1,5 +1,5 @@
 #
-# Author: 
+# Author: Will Augustine
 #
 # Description:
 #
@@ -20,25 +20,72 @@ class World:
     #    attributes and sets up the window within which to draw.
     #    It also initializes the lighting in the world.
     def __init__(self, filename):
+        fileReader = open(filename, 'r')
+        fileContents = fileReader.read().splitlines()
+        self.width = int(fileContents[0].split()[0])
+        self.height = int(fileContents[0].split()[1])
+        self.avatarX = int(fileContents[1].split()[0])
+        self.avatarY = int(fileContents[1].split()[1])
+        self.avatar = Avatar(self.avatarX, self.avatarY)
+        self.world = [[0 for i in range(self.width)] for j in range(self.height)]
+        worldX = 0
+        for line in fileContents:
+            if worldX < 2:
+                pass
+            else:
+                worldY = 0
+                for tile in line.split():
+                    self.world[worldX-2][worldY] = Tile(tile)
+                    worldY += 1
+            worldX += 1
 
-        ##### YOUR CODE HERE #####
-        pass
+        # Set up test parameters
+        self.size = 16
+        # Set up a StdDraw canvas on which to draw the tiles
+        StdDraw.setCanvasSize(self.width * self.size, self.height * self.size)
+        StdDraw.setXscale(0.0, self.width * self.size)
+        StdDraw.setYscale(0.0, self.height * self.size)
+
+        
 
     # Accept keyboard input and performs the appropriate action
     # 
     # Input parameter is a character that indicates the action to be taken
     def handleKey(self, ch):
-
-        ##### YOUR CODE HERE ####
-        pass
+        # print(f"Key pressed: {ch}")
+        if (ch == 'w') & (self.avatar.getY() < self.height):
+            self.avatar.setLocation(self.avatar.getX(), self.avatar.getY() + 1)
+        elif (ch == 's') & (self.avatar.getY() > 0):
+            self.avatar.setLocation(self.avatar.getX(), self.avatar.getY() - 1)
+        elif (ch == 'a') & (self.avatar.getX() > 0):
+            self.avatar.setLocation(self.avatar.getX() - 1, self.avatar.getY())
+        elif (ch == 'd') & (self.avatar.getX() < self.width):
+            self.avatar.setLocation(self.avatar.getX() + 1, self.avatar.getY())
+        elif (ch == '+'):
+            self.avatar.increaseTorch()
+        elif (ch == '-'):
+            self.avatar.decreaseTorch()
+        self.draw()
+            
+        
     
     # Draw all the lit tiles
     #
     # Only action is to draw all the components associated with the world
     def draw(self):
+        yCounter = 0
+        for row in self.world:
+            tileX = 0
+            for tile in row:
+                tileY = self.height - yCounter - 1
+                tile = Tile(tile)
+                tile.setLit(True)
+                tile.draw(tileX, tileY)
+                tileX += 1
+            yCounter +=1
+        self.avatar.draw()
 
-        ##### YOUR CODE HERE #####
-        pass
+        # StdDraw.show()
     
     # Light the world
     #
@@ -48,7 +95,8 @@ class World:
     # Returns the total number of tiles lit
     def light(self, x, y, r):
 
-        ##### YOUR CODE HERE #####
+        avatarX = self.avatar.getX()
+        avatarY = self.avatar.getY()
         return 0
     
     # Recursively light from (x, y) limiting to radius r
@@ -59,7 +107,15 @@ class World:
     # Returns the number of tiles lit
     def lightDFS(self, x, y, currentX, currentY, r):
 
-        ##### YOUR CODE HERE ####
+        if abs(x - currentX) > r:
+            return 0
+        if abs(y - currentY) > r:
+            return 0
+        # checking light to left
+        if ((x - currentX) > 0):
+            pass
+        for i in range():
+            pass
         return 0
             
     # Turn all the lit values of the tiles to a given value. Used
@@ -78,4 +134,4 @@ class World:
 if __name__ == "__main__":
     world0 = World(sys.argv[1])
     world0.draw()
-    StdDraw.show()
+    # StdDraw.show()
