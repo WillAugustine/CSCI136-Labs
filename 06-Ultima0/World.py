@@ -1,9 +1,10 @@
 #
 # Author: Will Augustine
 #
-# Description:
+# Description: Draws and modifies the world for the Ultima game
 #
 
+# Imports
 from Tile import Tile
 from Avatar import Avatar
 import math
@@ -20,49 +21,105 @@ class World:
     #    attributes and sets up the window within which to draw.
     #    It also initializes the lighting in the world.
     def __init__(self, filename):
-        fileReader = open(filename, 'r')
-        fileContents = fileReader.read().splitlines()
-        self.width = int(fileContents[0].split()[0])
-        self.height = int(fileContents[0].split()[1])
-        self.avatarX = int(fileContents[1].split()[0])
-        self.avatarY = int(fileContents[1].split()[1])
-        self.avatar = Avatar(self.avatarX, self.avatarY)
-        self.world = [[0 for i in range(self.width)] for j in range(self.height)]
-        worldX = 0
-        for line in fileContents:
-            if worldX < 2:
+        fileReader = open(filename, 'r') # Variable for all input file information
+        fileContents = fileReader.read().splitlines() # Array of strings from input file
+        self.width = int(fileContents[0].split()[0]) # Get the width from the first line
+        self.height = int(fileContents[0].split()[1]) # Get the height from the first line
+        self.maxY = self.height - 1 # Set maxY value (since height does not account for starting at 0)
+        self.avatarX = int(fileContents[1].split()[0]) # Variable for avatar's x position
+        self.avatarY = int(fileContents[1].split()[1]) # Variable for avatar's y position
+        self.avatar = Avatar(self.avatarX, self.avatarY) # Variable for object of avatar class (want the same avatar througout the game)
+        self.world = [[0 for i in range(self.width)] for j in range(self.height)] # Variable for world of Tile class objects
+        #
+        # Loop to extract world character, create Tile object from character, then add Tile object
+        #   to the self.world variable in the correct spot
+        #
+        worldX = 0 # Counter for x position
+        for line in fileContents: # For each row
+            if worldX < 2: # Ignores the first two rows in input file
                 pass
             else:
-                worldY = 0
-                for tile in line.split():
-                    self.world[worldX-2][worldY] = Tile(tile)
-                    worldY += 1
-            worldX += 1
-
-        # Set up test parameters
-        self.size = 16
+                worldY = 0 # Counter for y position
+                for tile in line.split(): # For each character in the row
+                    self.world[worldX-2][worldY] = Tile(tile) # Add Tile object to self.world
+                    worldY += 1 # Increment y position counter
+            worldX += 1 # Increment x position counter
+        self.size = 16 # Variable for the size of a tile
         # Set up a StdDraw canvas on which to draw the tiles
         StdDraw.setCanvasSize(self.width * self.size, self.height * self.size)
         StdDraw.setXscale(0.0, self.width * self.size)
         StdDraw.setYscale(0.0, self.height * self.size)
 
-        
-
-    # Accept keyboard input and performs the appropriate action
+    #
+    # Description: Used to determine if the avatar can move in the specified direction
     # 
-    # Input parameter is a character that indicates the action to be taken
-    def handleKey(self, ch):
-        # print(f"Key pressed: {ch}")
-        if (ch == 'w') & (self.avatar.getY() < self.height):
+    # Inputs:
+    #   string direction: Either 'up', 'down', 'right', or 'left'
+    # 
+    # Outputs:
+    #   True: if the avatar can move in the specified direction    
+    #   False: if the avatar can NOT move in the specified direction
+    #
+    def canMoveAvatar(self, direction):
+        if (direction ==  'up'): # If specified direction is up
+            return True if self.world[self.maxY - self.avatarY - 1][self.avatarX].isPassable() else False
+        if (direction == 'down'): # If specified direction is down   
+            return True if self.world[self.maxY - self.avatarY + 1][self.avatarX].isPassable() else False
+        if (direction == 'left'): # If specified direction is left
+            return True if self.world[self.maxY - self.avatarY][self.avatarX - 1].isPassable() else False
+        if (direction == 'right'): # If specified direction is right
+            return True if self.world[self.maxY - self.avatarY][self.avatarX + 1].isPassable() else False
+
+    #
+    # Description: Used to move the avatar in the specified direction
+    # 
+    # Inputs:
+    #   string direction: Either 'up', 'down', 'right', or 'left'
+    # 
+    # Outputs:
+    #   None
+    #
+    def moveAvatar(self, direction):
+        if (direction ==  'up'): # If specified direction is up
             self.avatar.setLocation(self.avatar.getX(), self.avatar.getY() + 1)
-        elif (ch == 's') & (self.avatar.getY() > 0):
+        if (direction == 'down'): # If specified direction is down       
             self.avatar.setLocation(self.avatar.getX(), self.avatar.getY() - 1)
-        elif (ch == 'a') & (self.avatar.getX() > 0):
+        if (direction == 'left'): # If specified direction is left
             self.avatar.setLocation(self.avatar.getX() - 1, self.avatar.getY())
-        elif (ch == 'd') & (self.avatar.getX() < self.width):
+        if (direction == 'right'): # If specified direction is right
             self.avatar.setLocation(self.avatar.getX() + 1, self.avatar.getY())
+        
+    #
+    # Description: Handles a key pressed and either moves the avatar or modifies torch brightness
+    # 
+    # Inputs:
+    #   char ch: The key that was pressed
+    # 
+    # Outputs:
+    #   None
+    #
+    def handleKey(self, ch):
+        self.avatarX = self.avatar.getX()
+        self.avatarY = self.avatar.getY()
+        if (ch == 'w') & (self.avatarY < self.height):
+            if self.canMoveAvatar('up'):
+                self.moveAvatar('up')
+
+        elif (ch == 's') & (self.avatarY > 0):
+            if self.canMoveAvatar('down'):
+                self.moveAvatar('down')
+
+        elif (ch == 'a') & (self.avatar.getX() > 0):
+            if self.canMoveAvatar('left'):
+                self.moveAvatar('left')
+
+        elif (ch == 'd') & (self.avatar.getX() < self.width):
+            if self.canMoveAvatar('right'):
+                self.moveAvatar('right')
+
         elif (ch == '+'):
             self.avatar.increaseTorch()
+
         elif (ch == '-'):
             self.avatar.decreaseTorch()
         self.draw()
@@ -73,19 +130,17 @@ class World:
     #
     # Only action is to draw all the components associated with the world
     def draw(self):
+        self.setLit(False)
         yCounter = 0
+        self.light(self.avatar.getX(), self.avatar.getY(), self.avatar.getTorchRadius())
         for row in self.world:
             tileX = 0
             for tile in row:
-                tileY = self.height - yCounter - 1
-                tile = Tile(tile)
-                tile.setLit(True)
+                tileY = self.maxY - yCounter
                 tile.draw(tileX, tileY)
                 tileX += 1
             yCounter +=1
         self.avatar.draw()
-
-        # StdDraw.show()
     
     # Light the world
     #
@@ -94,10 +149,9 @@ class World:
     #    Calls the recursive lightDFS method to continue the lighting
     # Returns the total number of tiles lit
     def light(self, x, y, r):
-
-        avatarX = self.avatar.getX()
-        avatarY = self.avatar.getY()
-        return 0
+        self.world[self.maxY - y][x].setLit(True)
+        litTiles = self.lightDFS(x, y, x, y, self.avatar.getTorchRadius())
+        return litTiles
     
     # Recursively light from (x, y) limiting to radius r
     #
@@ -105,17 +159,23 @@ class World:
     #    (currX, currY), the position that we are currently looking
     #    to light, and r, the radius of the torch.
     # Returns the number of tiles lit
-    def lightDFS(self, x, y, currentX, currentY, r):
-
-        if abs(x - currentX) > r:
-            return 0
-        if abs(y - currentY) > r:
-            return 0
-        # checking light to left
-        if ((x - currentX) > 0):
-            pass
-        for i in range():
-            pass
+    def lightDFS(self, x, y, currX, currY, r):
+        dist = ((currX - x)**2 + (currY - y)**2)**0.5
+        if dist <= r:
+            self.world[self.maxY - currY][currX].setLit(True)
+            litTiles = 1
+            if not ((x==currX) and (y==currY)):
+                if (self.world[self.maxY - currY][currX].isOpaque() == True):
+                    return litTiles
+            if ((currX > 0) and (currX <= x)):
+                litTiles += self.lightDFS(x, y, currX-1, currY, r)
+            if ((currY > 0) and (currY <= y)):
+                litTiles += self.lightDFS(x, y, currX, currY-1, r)
+            if ((currX < self.width) and (currX >= x)):
+                litTiles += self.lightDFS(x, y, currX+1, currY, r)
+            if ((currY < self.maxY) and (currY >= y)):
+                litTiles += self.lightDFS(x, y, currX, currY+1, r)
+            return litTiles
         return 0
             
     # Turn all the lit values of the tiles to a given value. Used
@@ -127,8 +187,9 @@ class World:
     #    version
     def setLit(self, value):
 
-        ##### YOUR CODE HERE #####
-        pass
+        for column in self.world:
+            for tile in column:
+                tile.setLit(value)
     
 # Main code to test the world class
 if __name__ == "__main__":
