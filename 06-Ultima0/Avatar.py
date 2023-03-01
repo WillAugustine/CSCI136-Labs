@@ -1,82 +1,127 @@
 #
 # Author: Will Augustine
 #
-# Description: 
+# Description: Contains the Avatar class where you can move avatar and modify torch radius
 #
-import StdDraw
-from Tile import Tile
-from picture import Picture as pic
+
+# Imports
+import StdDraw # Import StdDraw to draw avatar
+from Tile import Tile # Import Tile class from Tile.py
+from picture import Picture as pic # Import Picture class from picture.py as variable 'pic'
 
 class Avatar :
 
-    # Constructor for the avatar class
     #
-    # Input parameters x and y are the initial integer positions of the
-    #    avatar within the world
+    # Description: Constructor for the Avatar class
+    # 
+    # Inputs:
+    #   int x: Avatar's starting x position
+    #   int y: Avatar's starting y position
+    #
+    # Outputs:
+    #   N/A
+    #
     def __init__(self, x, y):
-        self.MIN_TORCH = 2.0
-        self.MAX_TORCH = 20.0
-        self.TORCH_INCREMENT = 0.5
-        self.x = x
-        self.y = y
-        self.torchRadius = 4.0
+        self.MIN_TORCH = 2.0 # Defines minimum torch radius
+        self.MAX_TORCH = 20.0 # Defines maximum torch radius
+        self.TORCH_INCREMENT = 0.5 # Defined torch increment value
+        self.x = x # Variable for avatar x position
+        self.y = y # Variable for avatar y position
+        self.torchRadius = 4.0 # Variable for torch radius with starting value of 4
 
-    # Mutator method to set the avatar to a new location
     #
-    # Input parameters are the new integer x and y position
+    # Description: Used to set the location of the avatar
+    # 
+    # Inputs:
+    #   int x: Desired avatar's x position
+    #   int y: Desired avatar's y position
+    #
+    # Outputs:
+    #   None
+    #
     def setLocation(self, x, y):
+        self.x = x # Update x position with inputted value
+        self.y = y # Update y position with inputted value
 
-        self.x = x
-        self.y = y
-
-    # Accessor method
     #
-    # Returns the x position of the avatar
+    # Description: Accessor method for the avatar's x position
+    # 
+    # Inputs:
+    #   None
+    #
+    # Outputs:
+    #   The avatar's x position
+    #
     def getX(self):
-
-        return self.x
+        return self.x # Returns the avatar's current x position
     
-    # Accessor method
     #
-    # Returns the y position of the avatar
+    # Description: Accessor method for the avatar's y position
+    # 
+    # Inputs:
+    #   None
+    #
+    # Outputs:
+    #   The avatar's y position
+    #
     def getY(self):
-
-        return self.y
+        return self.y # Returns the avatar's current y position
     
-    # Accessor method
     #
-    # Returns the current radius of the torch
+    # Description: Accessor method for the torch radius
+    # 
+    # Inputs:
+    #   None
+    #
+    # Outputs:
+    #   The torch's current radius
+    #
     def getTorchRadius(self):
+        return self.torchRadius # Returns the torch radius
 
-        return self.torchRadius
-
-    # Make our torch more powerful
     #
-    # Increases the radius of the torch
+    # Description: Used to increase the torch radius
+    # 
+    # Inputs:
+    #   None
+    #
+    # Outputs:
+    #   None
+    #
     def increaseTorch(self):
-
-        if self.torchRadius < self.MAX_TORCH:
-            self.torchRadius += self.TORCH_INCREMENT
+        if self.torchRadius < self.MAX_TORCH: # If the torch radius is less than the max radius
+            self.torchRadius += self.TORCH_INCREMENT # Increment the torch radius by increment value
     
-    # Make our torch less powerful
     #
-    # Decreases the radius of the torch
+    # Description: Used to decrease the torch radius
+    # 
+    # Inputs:
+    #   None
+    #
+    # Outputs:
+    #   None
+    #
     def decreaseTorch(self):
 
-        if self.torchRadius > self.MIN_TORCH:
-            self.torchRadius -= self.TORCH_INCREMENT
+        if self.torchRadius > self.MIN_TORCH: # If the torch radius is greater than the min radius
+            self.torchRadius -= self.TORCH_INCREMENT # Decrement the torch radius by increment value
 
-    # Draw the avatar
     #
-    # Uses the avatar's current position to place and draw the avatar
-    #    on the canvas
+    # Description: Used to draw the avatar based on current position
+    # 
+    # Inputs:
+    #   None
+    #
+    # Outputs:
+    #   None
+    #
     def draw(self):
-        SIZE = 16
-        x = self.x*SIZE + SIZE/2
-        y = self.y*SIZE + SIZE/2
+        SIZE = 16 # Variable for tile size (in pixels)
+        x = self.x*SIZE + SIZE/2 # Calculates pixel x
+        y = self.y*SIZE + SIZE/2 # Calculates pixel y
         
-        tile = pic('avatar.gif')
-        StdDraw.picture(tile, x, y)
+        tile = pic('avatar.gif') # Create picture object from avatar image
+        StdDraw.picture(tile, x, y) # Draws the avatar
 
 # Main code to test the avatar class    
 if __name__ == "__main__":

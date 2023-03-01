@@ -5,21 +5,22 @@
 #
 
 # Imports
-from Tile import Tile
-from Avatar import Avatar
-import math
-import sys
-import StdDraw
+from Tile import Tile # Imports Tile class from Tile.py
+from Avatar import Avatar # Imports Avatar class from Avatar.py
+import sys # Imports sys for reading in command line arguments
+import StdDraw # Imports StdDraw for drawing world
 
 class World:
 
-    # Constructor for the world
     #
-    # Input parameter is a file name holding the configuration information
-    #    for the world to be created
-    #    The constructor reads in file data, stores it in appropriate
-    #    attributes and sets up the window within which to draw.
-    #    It also initializes the lighting in the world.
+    # Description: Constructor for the World class
+    # 
+    # Inputs:
+    #   string filename: the file you want to read in
+    #
+    # Outputs:
+    #   N/A
+    #
     def __init__(self, filename):
         fileReader = open(filename, 'r') # Variable for all input file information
         fileContents = fileReader.read().splitlines() # Array of strings from input file
@@ -29,11 +30,9 @@ class World:
         self.avatarX = int(fileContents[1].split()[0]) # Variable for avatar's x position
         self.avatarY = int(fileContents[1].split()[1]) # Variable for avatar's y position
         self.avatar = Avatar(self.avatarX, self.avatarY) # Variable for object of avatar class (want the same avatar througout the game)
-        self.world = [[0 for i in range(self.width)] for j in range(self.height)] # Variable for world of Tile class objects
-        #
+        self.world = [[0 for i in range(self.width)] for j in range(self.height)] # Variable for world of Tile class object
         # Loop to extract world character, create Tile object from character, then add Tile object
         #   to the self.world variable in the correct spot
-        #
         worldX = 0 # Counter for x position
         for line in fileContents: # For each row
             if worldX < 2: # Ignores the first two rows in input file
@@ -99,8 +98,6 @@ class World:
     #   None
     #
     def handleKey(self, ch):
-        self.avatarX = self.avatar.getX()
-        self.avatarY = self.avatar.getY()
         if (ch == 'w') & (self.avatarY < self.height):
             if self.canMoveAvatar('up'):
                 self.moveAvatar('up')
@@ -126,70 +123,93 @@ class World:
             
         
     
-    # Draw all the lit tiles
     #
-    # Only action is to draw all the components associated with the world
+    # Description: Draws the world
+    # 
+    # Inputs:
+    #   None
+    # 
+    # Outputs:
+    #   None
+    #
     def draw(self):
-        self.setLit(False)
-        yCounter = 0
-        self.light(self.avatar.getX(), self.avatar.getY(), self.avatar.getTorchRadius())
-        for row in self.world:
-            tileX = 0
-            for tile in row:
-                tileY = self.maxY - yCounter
-                tile.draw(tileX, tileY)
-                tileX += 1
-            yCounter +=1
-        self.avatar.draw()
+        self.avatarX = self.avatar.getX() # Updates self.avatarX with current avatar x
+        self.avatarY = self.avatar.getY() # Updates self.avatarY with current avatar y
+        self.setLit(False) # Sets all tiles to unlit
+        yCounter = 0 # Counter for row position in self.world
+        self.light(self.avatarX, self.avatarY, self.avatar.getTorchRadius()) # Lights tiles around avatar based on torch radius
+        for row in self.world: # For each row in self.world
+            tileX = 0 # Counter for column position in row
+            for tile in row: # For each tile in a row
+                tileY = self.maxY - yCounter # Invert the y position (y is top to bottom)
+                tile.draw(tileX, tileY) # Draw the tile
+                tileX += 1 # Increment column counter
+            yCounter +=1 # Increment row counter
+        self.avatar.draw() # Draw the avatar on top of the tiles
     
-    # Light the world
     #
-    # Input parameters are the x and y position of the avatar and the
-    #    current radius of the torch.
-    #    Calls the recursive lightDFS method to continue the lighting
-    # Returns the total number of tiles lit
+    # Description: Calls lightDFS to light up tiles based on opaque values and torch radius
+    # 
+    # Inputs:
+    #   int x: Avatar's x position
+    #   int y: Avatar's y position
+    #   float r: radius of the Avatar's torch 
+    #
+    # Outputs:
+    #   Number of tiles lit
+    #
     def light(self, x, y, r):
-        self.world[self.maxY - y][x].setLit(True)
-        litTiles = self.lightDFS(x, y, x, y, self.avatar.getTorchRadius())
-        return litTiles
+        self.world[self.maxY - y][x].setLit(True) # Sets the Avatar's position as lit
+        litTiles = 1 # Set number of lit tiles to 1 since Avatar's position is lit
+        litTiles = self.lightDFS(x, y, x, y, r) # Calls lightDFS to light surrounding area and adds number of tiles lit to litTiles
+        return litTiles # Returns the number of tiles lit by lightDFS
     
-    # Recursively light from (x, y) limiting to radius r
     #
-    # Input parameters are (x,y), the position of the avatar,
-    #    (currX, currY), the position that we are currently looking
-    #    to light, and r, the radius of the torch.
-    # Returns the number of tiles lit
+    # Description: A recursive function to light up nearby tiles based on torch strength
+    # 
+    # Inputs:
+    #   int x: Avatar's x position
+    #   int y: Avatar's y position
+    #   int currX: The current x position being looked at
+    #   int currY: The current y position being looked at
+    #   float r: radius of the Avatar's torch 
+    #
+    # Outputs:
+    #   Number of tiles lit
+    #
     def lightDFS(self, x, y, currX, currY, r):
-        dist = ((currX - x)**2 + (currY - y)**2)**0.5
-        if dist <= r:
-            self.world[self.maxY - currY][currX].setLit(True)
-            litTiles = 1
-            if not ((x==currX) and (y==currY)):
-                if (self.world[self.maxY - currY][currX].isOpaque() == True):
-                    return litTiles
-            if ((currX > 0) and (currX <= x)):
-                litTiles += self.lightDFS(x, y, currX-1, currY, r)
-            if ((currY > 0) and (currY <= y)):
-                litTiles += self.lightDFS(x, y, currX, currY-1, r)
-            if ((currX < self.width) and (currX >= x)):
-                litTiles += self.lightDFS(x, y, currX+1, currY, r)
-            if ((currY < self.maxY) and (currY >= y)):
-                litTiles += self.lightDFS(x, y, currX, currY+1, r)
-            return litTiles
-        return 0
+        dist = ((currX - x)**2 + (currY - y)**2)**0.5 # Calculates the distance from avatar to current position
+        if dist <= r: # If the distance does not exceed the radius of the torch
+            self.world[self.maxY - currY][currX].setLit(True) # Set the tile as lit
+            litTiles = 1 # Set litTiles equal to 1 since a tile was just lit
+            if not ((x==currX) and (y==currY)): # If you are not looking at the avatar's position
+                if (self.world[self.maxY - currY][currX].isOpaque() == True): # If a block is opaque (you cannot see through it)
+                    return litTiles # Do not light any more tiles after opaque tile
+            if ((currX > 0) and (currX <= x)): # If the current x position is less than avatar's x position and is within bounds
+                litTiles += self.lightDFS(x, y, currX-1, currY, r) # Light the tile to the left
+            if ((currY > 0) and (currY <= y)): # If the current y position is less than avatar's y position and is within bounds
+                litTiles += self.lightDFS(x, y, currX, currY-1, r) # Light the tile below
+            if ((currX < self.width) and (currX >= x)): # If the current x position is greater than avatar's x position and is within bounds
+                litTiles += self.lightDFS(x, y, currX+1, currY, r) # Light the tile to the right
+            if ((currY < self.maxY) and (currY >= y)): # If the current y position is greater than avatar's y position and is within bounds
+                litTiles += self.lightDFS(x, y, currX, currY+1, r) # Light the tile above
+            return litTiles # Return the number of tiles lit
+        return 0 # If distance is greater than torch radius, return 0 since no tiles were lit
             
-    # Turn all the lit values of the tiles to a given value. Used
-    #    to reset lighting each time the avatar moves or the torch
-    #    strength changes
     #
-    # Input paramter is a boolean value, generally False, to turn off
-    #    the light, but is flexible to turn the light on in some future
-    #    version
+    # Description: Sets all tiles in the world to a specified lit value
+    # 
+    # Inputs:
+    #   boolean value: The desired lit value for all tiles in the world
+    #
+    # Outputs:
+    #   None
+    #
     def setLit(self, value):
 
-        for column in self.world:
-            for tile in column:
-                tile.setLit(value)
+        for row in self.world: # For each row in the world 
+            for tile in row: # For each tile in the current row
+                tile.setLit(value) # Set the lit value equal to the inputted value
     
 # Main code to test the world class
 if __name__ == "__main__":

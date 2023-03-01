@@ -1,95 +1,125 @@
 #
 # Author: Will Augustine
 #
-# Description: 
+# Description: Contains the Tile class which is used to represent each tile in the world
 #
 
-from enum import Enum, auto
-from picture import Picture as pic
-import StdDraw
+# Imports
+from enum import Enum # Imports Enum class from enum library
+from picture import Picture as pic # Imports Picture class from picture as variable 'pic'
+import StdDraw # Imports StdDraw to draw tiles
 
-#Enumeration class to handle different tile types
+# Enumeration class to handle different tile types
 class TileType(Enum):
     INVALID = None
-    FLOOR = {'filename': 'brickfloor.gif', 'opaque': False, 'passable': True}
-    LAVA = {'filename': 'lava.gif', 'opaque': False, 'passable': True}
-    WATER = {'filename': 'water.gif', 'opaque': False, 'passable': False}
-    FOREST = {'filename': 'forest.gif', 'opaque': True, 'passable': True}
-    GRASS = {'filename': 'grasslands.gif', 'opaque': False, 'passable': True}
-    MOUNTAIN = {'filename': 'mountains.gif', 'opaque': True, 'passable': False}
-    WALL = {'filename': 'stonewall.gif', 'opaque': True, 'passable': False}
+    FLOOR = {'filename': 'brickfloor.gif', 'opaque': False, 'passable': True} # For code 'B'
+    LAVA = {'filename': 'lava.gif', 'opaque': False, 'passable': True} # For code 'L'
+    WATER = {'filename': 'water.gif', 'opaque': False, 'passable': False} # For code 'W'
+    FOREST = {'filename': 'forest.gif', 'opaque': True, 'passable': True} # For code 'F'
+    GRASS = {'filename': 'grasslands.gif', 'opaque': False, 'passable': True} # For code 'G'
+    MOUNTAIN = {'filename': 'mountains.gif', 'opaque': True, 'passable': False} # For code 'M'
+    WALL = {'filename': 'stonewall.gif', 'opaque': True, 'passable': False} # For code 'S'
 
 # Class that handles all data and operations on tiles
 class Tile:
 
-    # Constructor for a tile
     #
-    # Paramter is a string or character that specifies the
-    #   type of tile
+    # Description: Constructor for the Tile class
+    # 
+    # Inputs:
+    #   char code: The code that represents a tile
+    #
+    # Outputs:
+    #   N/A
+    #
     def __init__(self, code):
-        self.size = 16
-        self.code = code
-        self.lit = False
-        self.attributes = TileType.INVALID.value
-        if self.code == 'B':
-            self.attributes = TileType.FLOOR.value
-        elif self.code == 'L':
-            self.attributes = TileType.LAVA.value
-        elif self.code == 'W':
-            self.attributes = TileType.WATER.value
-        elif self.code == 'F':
-            self.attributes = TileType.FOREST.value
-        elif self.code == 'G':
-            self.attributes = TileType.GRASS.value
-        elif self.code == 'M':
-            self.attributes = TileType.MOUNTAIN.value
-        elif self.code == 'S':
-            self.attributes = TileType.WALL.value
+        self.size = 16 # Variable for the pixel size of a tile
+        self.code = code # Variable for the code inputtd
+        self.lit = False # Sets default lit value as False
+        self.attributes = TileType.INVALID.value # Gets the attributes from INVALID as default
+        if self.code == 'B': # If the inputted code was 'B'
+            self.attributes = TileType.FLOOR.value # Set the attributes to dictionary of FLOOR in the enumeration class
+        elif self.code == 'L': # If the inputted code was 'L'
+            self.attributes = TileType.LAVA.value # Set the attributes to dictionary of LAVA in the enumeration class
+        elif self.code == 'W': # If the inputted code was 'W'
+            self.attributes = TileType.WATER.value # Set the attributes to dictionary of WATER in the enumeration class
+        elif self.code == 'F': # If the inputted code was 'F'
+            self.attributes = TileType.FOREST.value # Set the attributes to dictionary of FOREST in the enumeration class
+        elif self.code == 'G': # If the inputted code was 'G'
+            self.attributes = TileType.GRASS.value # Set the attributes to dictionary of GRASS in the enumeration class
+        elif self.code == 'M': # If the inputted code was 'M'
+            self.attributes = TileType.MOUNTAIN.value # Set the attributes to dictionary of MOUNTAIN in the enumeration class
+        elif self.code == 'S': # If the inputted code was 'S'
+            self.attributes = TileType.WALL.value # Set the attributes to dictionary of WALL in the enumeration class
             
 
-    # Accessor for the lit instance variable
     #
-    # Returns a True if the tile is lit, False otherwise
+    # Description: Returns if a tile is lit
+    # 
+    # Inputs:
+    #   None 
+    #
+    # Outputs:
+    #   Boolean value of if a tile is lit
+    #
     def getLit(self):
+        return self.lit # Returns a tile's lit value
 
-        return self.lit
-
-    # Mutator for the lit instance variable
     #
-    # Input parament value is a boolean variable
+    # Description: Sets a tile's lit value based on inputted value
+    # 
+    # Inputs:
+    #   boolean value: What state you want the tile's lit value to be
+    #
+    # Outputs:
+    #   None
+    #
     def setLit(self, value):
+        self.lit = value # Set tile's lit value to inputted value
 
-        self.lit = value
-        pass
-
-    # Does light pass through this tile
     #
-    # Returns True if the tile is opaque, False otherwise
+    # Description: Returns if a tile is opaque (light does NOT pass through)
+    # 
+    # Inputs:
+    #   None
+    #
+    # Outputs:
+    #   Boolean value of if a tile is opaque
+    #
     def isOpaque(self):
+        return self.attributes['opaque'] # Gets opaque value from tile's attributes
 
-        return self.attributes['opaque']
-
-    # Can the hero walk through this tile
     #
-    # Returns True if the tile can be moved through,
-    #    False otherwise
+    # Description: Returns if a tile is passable (can walk through it)
+    # 
+    # Inputs:
+    #   None
+    #
+    # Outputs:
+    #   Boolean value of if a tile is passable
+    #
     def isPassable(self):
+        return self.attributes['passable'] # Gets passable value from tile's attributes
 
-        return self.attributes['passable']
-
-    # Draw the tile at the given location
     #
-    # Input parameters x and y are integers specifying
-    #    the tile's position within the world grid
+    # Description: Draws the tile at the inputted location
+    # 
+    # Inputs:
+    #   int x: x position of tile
+    #   int y: y position of tile
+    #
+    # Outputs:
+    #   None
+    #
     def draw(self, x, y):
-        x = x*self.size + self.size/2
-        y = y*self.size + self.size/2
-        if self.lit:
-            tile = pic(self.attributes['filename'])
-            StdDraw.picture(tile, x, y)
-        else:
-            tile = pic('blank.gif')
-            StdDraw.picture(tile, x, y)
+        x = x*self.size + self.size/2 # Convert x position into pixel location
+        y = y*self.size + self.size/2 # Convert y position into pixel location
+        if self.lit: # If the tile is lit
+            tile = pic(self.attributes['filename']) # Create picture object based on filename specified in attributes
+            StdDraw.picture(tile, x, y) # Draw the tile
+        else: # If the tile is not lit
+            tile = pic('blank.gif') # Create picture object based on blank image
+            StdDraw.picture(tile, x, y) # Draw the tile
 
 #
 # Main code for testing the Tile class
