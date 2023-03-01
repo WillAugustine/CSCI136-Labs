@@ -159,11 +159,11 @@ class World:
     #   Number of tiles lit
     #
     def light(self, x, y, r):
-        self.world[self.maxY - y][x].setLit(True) # Sets the Avatar's position as lit
-        litTiles = 1 # Set number of lit tiles to 1 since Avatar's position is lit
+        # self.world[self.maxY - y][x].setLit(True) # Sets the Avatar's position as lit
+        # litTiles = 1 # Set number of lit tiles to 1 since Avatar's position is lit
         litTiles = self.lightDFS(x, y, x, y, r) # Calls lightDFS to light surrounding area and adds number of tiles lit to litTiles
         return litTiles # Returns the number of tiles lit by lightDFS
-    
+
     #
     # Description: A recursive function to light up nearby tiles based on torch strength
     # 
@@ -177,24 +177,64 @@ class World:
     # Outputs:
     #   Number of tiles lit
     #
-    def lightDFS(self, x, y, currX, currY, r):
-        dist = ((currX - x)**2 + (currY - y)**2)**0.5 # Calculates the distance from avatar to current position
-        if dist <= r: # If the distance does not exceed the radius of the torch
-            self.world[self.maxY - currY][currX].setLit(True) # Set the tile as lit
-            litTiles = 1 # Set litTiles equal to 1 since a tile was just lit
-            if not ((x==currX) and (y==currY)): # If you are not looking at the avatar's position
-                if (self.world[self.maxY - currY][currX].isOpaque() == True): # If a block is opaque (you cannot see through it)
-                    return litTiles # Do not light any more tiles after opaque tile
-            if ((currX > 0) and (currX <= x)): # If the current x position is less than avatar's x position and is within bounds
-                litTiles += self.lightDFS(x, y, currX-1, currY, r) # Light the tile to the left
-            if ((currY > 0) and (currY <= y)): # If the current y position is less than avatar's y position and is within bounds
-                litTiles += self.lightDFS(x, y, currX, currY-1, r) # Light the tile below
-            if ((currX < self.width) and (currX >= x)): # If the current x position is greater than avatar's x position and is within bounds
-                litTiles += self.lightDFS(x, y, currX+1, currY, r) # Light the tile to the right
-            if ((currY < self.maxY) and (currY >= y)): # If the current y position is greater than avatar's y position and is within bounds
-                litTiles += self.lightDFS(x, y, currX, currY+1, r) # Light the tile above
-            return litTiles # Return the number of tiles lit
-        return 0 # If distance is greater than torch radius, return 0 since no tiles were lit
+    def lightDFS(self, x, y, currentX, currentY, r):
+        dist = ((currentX - x)**2 + (currentY - y)**2)**0.5 # Calculates the distance from avatar to current position
+        '''
+            if currentX is within bounds and
+            currentY is within bounds and
+            the current tile is not lit and
+            distance from tile to avatar is less than torch radius
+        '''
+        if currentX in range(self.width) and \
+            currentY in range(self.height) and \
+            not self.world[self.maxY - currentY][currentX].getLit() and \
+            dist < r:
+            
+            litTiles = 0 # Set litTiles equal to 0 since no tiles are lit yet
+            if (self.world[self.maxY - currentY][currentX].isOpaque() == True): # If a block is opaque (you cannot see through it)
+                self.world[self.maxY - currentY][currentX].setLit(True) # Set the tile as lit
+                return 1 # Do not light any more tiles after opaque tile
+            self.world[self.maxY - currentY][currentX].setLit(True) # Set the tile as lit
+            litTiles += 1 # Increment number of tiles lit
+        else: # Base case
+            return 0 # Return 0 since no tiles were lit this go around
+        litTiles += self.lightDFS(x, y, currentX-1, currentY, r) # Light the tile to the left
+        litTiles += self.lightDFS(x, y, currentX, currentY-1, r) # Light the tile above
+        litTiles += self.lightDFS(x, y, currentX+1, currentY, r) # Light the tile to the right
+        litTiles += self.lightDFS(x, y, currentX, currentY+1, r) # Light the tile below
+        return litTiles # Return the number of tiles lit
+
+    # #
+    # # Description: A recursive function to light up nearby tiles based on torch strength
+    # # 
+    # # Inputs:
+    # #   int x: Avatar's x position
+    # #   int y: Avatar's y position
+    # #   int currX: The current x position being looked at
+    # #   int currY: The current y position being looked at
+    # #   float r: radius of the Avatar's torch 
+    # #
+    # # Outputs:
+    # #   Number of tiles lit
+    # #
+    # def lightDFS(self, x, y, currX, currY, r):
+    #     dist = ((currX - x)**2 + (currY - y)**2)**0.5 # Calculates the distance from avatar to current position
+    #     if dist <= r: # If the distance does not exceed the radius of the torch
+    #         self.world[self.maxY - currY][currX].setLit(True) # Set the tile as lit
+    #         litTiles = 1 # Set litTiles equal to 1 since a tile was just lit
+    #         if not ((x==currX) and (y==currY)): # If you are not looking at the avatar's position
+    #             if (self.world[self.maxY - currY][currX].isOpaque() == True): # If a block is opaque (you cannot see through it)
+    #                 return litTiles # Do not light any more tiles after opaque tile
+    #         if ((currX > 0) and (currX <= x)): # If the current x position is less than avatar's x position and is within bounds
+    #             litTiles += self.lightDFS(x, y, currX-1, currY, r) # Light the tile to the left
+    #         if ((currY > 0) and (currY <= y)): # If the current y position is less than avatar's y position and is within bounds
+    #             litTiles += self.lightDFS(x, y, currX, currY-1, r) # Light the tile below
+    #         if ((currX < self.width) and (currX >= x)): # If the current x position is greater than avatar's x position and is within bounds
+    #             litTiles += self.lightDFS(x, y, currX+1, currY, r) # Light the tile to the right
+    #         if ((currY < self.maxY) and (currY >= y)): # If the current y position is greater than avatar's y position and is within bounds
+    #             litTiles += self.lightDFS(x, y, currX, currY+1, r) # Light the tile above
+    #         return litTiles # Return the number of tiles lit
+    #     return 0 # If distance is greater than torch radius, return 0 since no tiles were lit
             
     #
     # Description: Sets all tiles in the world to a specified lit value
