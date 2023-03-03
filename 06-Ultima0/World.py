@@ -206,6 +206,7 @@ class World:
 
     # #
     # # Description: A recursive function to light up nearby tiles based on torch strength
+    # #     This solution to lightDFS does not wrap around opaque objects
     # # 
     # # Inputs:
     # #   int x: Avatar's x position
