@@ -20,7 +20,6 @@ L L S B S L L L F G G L G G L L L G G L G G G G G G L L L L
 L L S S S L L L F F G G G L L L L L L L L G G G G G L L L L
 L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L
 L L L L L L L L L L L L L L L L L L L L L L L L L L L L L L
-
 SK  3   3   10  3 1000
 OR  6   19  8   2 750
 BA  20  10  4   1 500

@@ -17,17 +17,22 @@ class Avatar :
     # Inputs:
     #   int x: Avatar's starting x position
     #   int y: Avatar's starting y position
+    #   int hp: The starting hp for the avatar
+    #   int damage: The amount of damage the avatar can deal
+    #   double torch: The starting torch radius for the avatar
     #
     # Outputs:
     #   N/A
     #
-    def __init__(self, x, y):
+    def __init__(self, x, y, hp, damage, torch):
         self.MIN_TORCH = 2.0 # Defines minimum torch radius
         self.MAX_TORCH = 20.0 # Defines maximum torch radius
         self.TORCH_INCREMENT = 0.5 # Defined torch increment value
         self.x = x # Variable for avatar x position
         self.y = y # Variable for avatar y position
-        self.torchRadius = 4.0 # Variable for torch radius with starting value of 4
+        self.torchRadius = torch # Variable for torch radius
+        self.hp = hp # Variable for health points (hp)
+        self.damage = damage # Variable for damage the avatar can deal
 
     #
     # Description: Used to set the location of the avatar
@@ -123,6 +128,42 @@ class Avatar :
         tile = pic('avatar.gif') # Create picture object from avatar image
         StdDraw.picture(tile, x, y) # Draws the avatar
 
+    #
+    # Description: Used to access the avatar's health points
+    # 
+    # Inputs:
+    #   None
+    #
+    # Outputs:
+    #   The health points the avatar has
+    #
+    def getHitPoints(self):
+        return self.hp
+    
+    #
+    # Description: Used to decrease the avatar's hp by damage incurred
+    # 
+    # Inputs:
+    #   int damage: The amount of damage the avatar took
+    #
+    # Outputs:
+    #   None
+    #
+    def incurDamage(self, damage):
+        self.hp -= damage
+
+    #
+    # Description: Used to access the amount of damage the avatar can deal
+    # 
+    # Inputs:
+    #   None
+    #
+    # Outputs:
+    #   The amount of damage the avatar deals
+    #
+    def incurDamage(self):
+        return self.damage
+    
 # Main code to test the avatar class    
 if __name__ == "__main__":
     WIDTH = 11

@@ -9,6 +9,8 @@ from Tile import Tile # Imports Tile class from Tile.py
 from Avatar import Avatar # Imports Avatar class from Avatar.py
 import sys # Imports sys for reading in command line arguments
 import StdDraw # Imports StdDraw for drawing world
+from Monster import Monster
+import threading
 
 class World:
 
@@ -29,22 +31,45 @@ class World:
         self.maxY = self.height - 1 # Set maxY value (since height does not account for starting at 0)
         self.avatarX = int(fileContents[1].split()[0]) # Variable for avatar's x position
         self.avatarY = int(fileContents[1].split()[1]) # Variable for avatar's y position
-        self.avatar = Avatar(self.avatarX, self.avatarY) # Variable for object of avatar class (want the same avatar througout the game)
-        self.world = [[0 for i in range(self.width)] for j in range(self.height)] # Variable for world of Tile class object
+        self.avatarHP = int(fileContents[1].split()[2]) # Variable for the avatar's starting hp
+        self.avatarDamage = int(fileContents[1].split()[3]) # Variable for the avatar's starting damage
+        self.avatarTorch = float(fileContents[1].split()[4]) # Variable for the avatar's starting torch radius
+        self.avatar = Avatar(self.avatarX, self.avatarY, self.avatarHP, self.avatarDamage, self.avatarTorch) # Variable for object of avatar class (want the same avatar througout the game)
+        self.world = [] # Variable for world of Tile class object
         # Loop to extract world character, create Tile object from character, then add Tile object
         #   to the self.world variable in the correct spot
-        worldX = 0 # Counter for x position
-        for line in fileContents: # For each row
-            if worldX < 2: # Ignores the first two rows in input file
-                pass
-            else:
-                worldY = 0 # Counter for y position
-                for tile in line.split(): # For each character in the row
-                    self.world[worldX-2][worldY] = Tile(tile) # Add Tile object to self.world
-                    worldY += 1 # Increment y position counter
-            worldX += 1 # Increment x position counter
-        self.size = 16 # Variable for the size of a tile
+        for lineNum in range(2, self.height + 2): # For each row
+            lineContents = fileContents[lineNum].split()
+            temp = []
+            for colNum in range(self.width): # For each character in the row
+                temp.append(Tile(lineContents[colNum])) # Add Tile object to self.world
+            self.world.append(temp)
+        self.monsters = []
+        self.monsterThreads = []
         self.world = list(reversed(self.world)) # Reverses the world
+        for lineNum in range(self.height + 2, len(fileContents)):
+            arguments = []
+            lineContents = fileContents[lineNum].split()
+            
+            arguments.append(lineContents[0])
+            arguments.append(int(lineContents[1]))
+            arguments.append(int(lineContents[2]))
+            arguments.append(int(lineContents[3]))
+            arguments.append(int(lineContents[4]))
+            arguments.append(int(lineContents[5]))
+            # monsterCode = lineContents[0]
+            # monsterStartX = int(lineContents[1])
+            # monsterStartY = int(lineContents[2])
+            # monsterStartHP = int(lineContents[3])
+            # monsterDamage = int(lineContents[4])
+            # monsterMoveInterval = int(lineContents[5])
+            t = threading.Thread(target=Monster, args=arguments)
+            t.start()
+            self.monsterThreads.append(t)
+            t.join()
+            self.monsters.append(t._return)
+            # self.monsters.append(Monster(self.world, monsterCode, monsterStartX, monsterStartY, monsterStartHP, monsterDamage, monsterMoveInterval))
+        self.size = 16 # Variable for the size of a tile
         # Set up a StdDraw canvas on which to draw the tiles
         StdDraw.setCanvasSize(self.width * self.size, self.height * self.size)
         StdDraw.setXscale(0.0, self.width * self.size)
@@ -123,8 +148,19 @@ class World:
         elif (ch == '-'): # If the player clicked '-'
             self.avatar.decreaseTorch() # Decrease the torch radius
             
-        
+    def avatarAlive(self):
+        return False if self.avatar.getHitPoints() <= 0 else True
     
+    def moveMonster(self, x, y, monster):
+        monster.setLocation(x, y)
+
+    def getNumMonsters(self):
+        numOfAlive = 0
+        for monster in self.monsters:
+            if not monster.isDead:
+                numOfAlive += 1
+        return numOfAlive
+
     #
     # Description: Draws the world
     # 
@@ -136,12 +172,13 @@ class World:
     #
     def draw(self):
         self.setLit(False) # Sets all tiles to unlit
-        yCounter = 0 # Counter for row position in self.world
         self.light(self.avatarX, self.avatarY, self.avatar.getTorchRadius()) # Lights tiles around avatar based on torch radius
-        for colNum in range(self.height): # Traverse through the column index
-            for rowNum in range(self.width): # For each index (row) in each column
-                self.world[colNum][rowNum].draw(rowNum, colNum) # Draw the current tile
+        for rowNum in range(self.height): # Traverse through the column index
+            for colNum in range(self.width): # For each index (row) in each column
+                self.world[rowNum][colNum].draw(colNum, rowNum) # Draw the current tile
         self.avatar.draw() # Draw the avatar on top of the tiles
+        for monster in self.monsters:
+            monster.draw()
     
     #
     # Description: Calls lightDFS to light up tiles based on opaque values and torch radius
@@ -223,4 +260,4 @@ class World:
 if __name__ == "__main__":
     world0 = World(sys.argv[1])
     world0.draw()
-    # StdDraw.show()
+    StdDraw.show()

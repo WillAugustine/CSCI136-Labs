@@ -36,11 +36,13 @@ class Tile:
         self.size = 16 # Variable for the pixel size of a tile
         self.code = code # Variable for the code inputtd
         self.lit = False # Sets default lit value as False
+        self.isLava = False
         self.attributes = TileType.INVALID.value # Gets the attributes from INVALID as default
         if self.code == 'B': # If the inputted code was 'B'
             self.attributes = TileType.FLOOR.value # Set the attributes to dictionary of FLOOR in the enumeration class
         elif self.code == 'L': # If the inputted code was 'L'
             self.attributes = TileType.LAVA.value # Set the attributes to dictionary of LAVA in the enumeration class
+            self.isLava = True
         elif self.code == 'W': # If the inputted code was 'W'
             self.attributes = TileType.WATER.value # Set the attributes to dictionary of WATER in the enumeration class
         elif self.code == 'F': # If the inputted code was 'F'
@@ -121,6 +123,10 @@ class Tile:
             tile = pic('blank.gif') # Create picture object based on blank image
             StdDraw.picture(tile, x, y) # Draw the tile
 
+    def getDamage(self):
+        if self.isLava:
+            return 1
+        return 0
 #
 # Main code for testing the Tile class
 #
