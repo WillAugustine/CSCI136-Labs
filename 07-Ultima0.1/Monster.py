@@ -1,5 +1,5 @@
 # 
-# Author: Will Augustine 
+# Author: 
 # 
 # Description:
 #
@@ -20,7 +20,6 @@ class MonsterType(Enum):
 
 class Monster:
 
-    SIZE = 16
     # Construct a new monster
     # 
     # param world	- the world the monster moves about in
@@ -32,47 +31,22 @@ class Monster:
     # param sleepMs	- delay between time monster moves
     def __init__(self, world, code, x, y, hp, damage, sleepMs):
 
-        self.world = world
-        self.x = x
-        self.y = y
-        self.hp = hp
-        self.damage = damage
-        self.sleepMs = sleepMs
-        if code == "SK":
-            self.type = MonsterType.SKELETON
-        elif code == "OR":
-            self.type = MonsterType.ORC
-        elif code == "SL":
-            self.type = MonsterType.SLIME
-        elif code == "BA":
-            self.type = MonsterType.BAT
-        else:
-            self.type = MonsterType.INVALID
+        ##### YOUR CODE HERE #####
         pass
 
     # The avatar has attacked a monster!
     #
     # param points	- number of hit points to be subtracted from monster
     def incurDamage(self, points):
-        self.hp -= points
+
+        ##### YOUR CODE HERE #####
         pass
 
     #
     # Draw this monster at its current location
     def draw(self):
-        drawX = (self.x + 0.5) * self.SIZE
-        drawY = (self.y + 0.5) * self.SIZE
 
-        
-        if self.type == MonsterType.SKELETON:
-            StdDraw.picture(picture.Picture("skeleton.gif"), drawX, drawY)
-        elif self.type == MonsterType.ORC:
-            StdDraw.picture(picture.Picture("orc.gif"), drawX, drawY)
-        elif self.type == MonsterType.SLIME:
-            StdDraw.picture(picture.Picture("slime.gif"), drawX, drawY)
-        elif self.type == MonsterType.BAT:
-            StdDraw.picture(picture.Picture("bat.gif"), drawX, drawY)
-        
+        ##### YOUR CODE HERE #####
         pass
 
     #
@@ -81,7 +55,8 @@ class Monster:
     # return the number of hit points
     def getHitPoints(self):
 
-        return self.hp
+        ##### YOUR CODE HERE #####
+        return 0
 
     #
     # Get the amount of damage a monster causes
@@ -89,7 +64,8 @@ class Monster:
     # return amount of damage monster causes
     def getDamage(self):
 
-        return self.damage
+        ##### YOUR CODE HERE #####
+        return 0
 
     #
     # Get the x position of the monster
@@ -97,7 +73,8 @@ class Monster:
     # return x position
     def getX(self):
 
-        return self.x
+        ##### YOUR CODE HERE #####
+        return 0
 
     #
     # Get the y position of the monster
@@ -105,7 +82,8 @@ class Monster:
     # return y position
     def getY(self):
 
-        return self.y
+        ##### YOUR CODE HERE #####
+        return 0
 
     #
     # Set the new location of the monster
@@ -114,28 +92,12 @@ class Monster:
     # param y the new y location
     def setLocation(self, x, y):
 
-        self.x = x
-        self.y = y
+        ##### YOUR CODE HERE #####
         pass
 
     #
     # Thread that moves the monster around periodically
     def run(self):
-        t1 = threading.Thread(target=draw)
-        t2 = threading.Thread(target=draw)
 
-        t1.start()
-        time.sleep(self.sleepMs)
-        num = random.randint(1,4)
-        if num == 1:
-            self.x += 1
-        elif num == 2:
-            self.x -= 1
-        elif num == 3:
-            self.y += 1
-        elif num == 4:
-            self.y -= 1
-        t2.start()
-        
-        
+        ##### YOUR CODE HERE #####
         pass

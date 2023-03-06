@@ -179,18 +179,22 @@ class World:
     #
     def lightDFS(self, x, y, currentX, currentY, r):
         dist = ((currentX - x)**2 + (currentY - y)**2)**0.5 # Calculates the distance from avatar to current position
+        
+        litTiles = 0 # Set litTiles equal to 0 since no tiles are lit yet
         '''
             if currentX is within bounds and
             currentY is within bounds and
             the current tile is not lit and
             distance from tile to avatar is less than torch radius
         '''
-        if currentX in range(self.width) and \
+        if ((currentX == x) and (currentY == y)):
+            self.world[self.maxY - currentY][currentX].setLit(True)
+            litTiles += 1
+        elif currentX in range(self.width) and \
             currentY in range(self.height) and \
             not self.world[self.maxY - currentY][currentX].getLit() and \
             dist < r:
             
-            litTiles = 0 # Set litTiles equal to 0 since no tiles are lit yet
             if (self.world[self.maxY - currentY][currentX].isOpaque() == True): # If a block is opaque (you cannot see through it)
                 self.world[self.maxY - currentY][currentX].setLit(True) # Set the tile as lit
                 return 1 # Do not light any more tiles after opaque tile
