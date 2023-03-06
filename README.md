@@ -9,6 +9,7 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
 - Lab 4: [Mind Reader](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-08-Assignment4-MindReader.pdf)
 - Lab 5: [Recursive Graphs](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-15-Assignment5-Sierpinski.pdf)
 - Lab 6: [Ultima 0](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-24-Assignment6-Ultimat0.pdf)
+- Lab 7: [Ultima 0.1](LabInstructions/CSCI136FundamentalsOfCS2-2023-03-08-Assignment7-Ultimat0dot1.pdf)
 
 ## Lab Solutions:
 - Lab 1 - Benford:
@@ -33,3 +34,9 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
   - [Avatar.py](06-Ultima0/Avatar.py)
   - [Tile.py](06-Ultima0/Tile.py)
   - [World.py](06-Ultima0/World.py)
+  
+- Lab 7 - Ultima 0.1:
+  - [Avatar.py](07-Ultima0.1/Avatar.py)
+  - [Tile.py](07-Ultima0.1/Tile.py)
+  - [World.py](07-Ultima0.1/World.py)
+  - [Monster.py](07-Ultima0.1/Monster.py)
