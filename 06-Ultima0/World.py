@@ -44,6 +44,7 @@ class World:
                     worldY += 1 # Increment y position counter
             worldX += 1 # Increment x position counter
         self.size = 16 # Variable for the size of a tile
+        self.world = list(reversed(self.world)) # Reverses the world
         # Set up a StdDraw canvas on which to draw the tiles
         StdDraw.setCanvasSize(self.width * self.size, self.height * self.size)
         StdDraw.setXscale(0.0, self.width * self.size)
@@ -61,13 +62,13 @@ class World:
     #
     def canMoveAvatar(self, direction):
         if (direction ==  'up'): # If specified direction is up
-            return True if self.world[self.maxY - self.avatarY - 1][self.avatarX].isPassable() else False
+            return True if self.world[self.avatarY + 1][self.avatarX].isPassable() else False
         if (direction == 'down'): # If specified direction is down   
-            return True if self.world[self.maxY - self.avatarY + 1][self.avatarX].isPassable() else False
+            return True if self.world[self.avatarY - 1][self.avatarX].isPassable() else False
         if (direction == 'left'): # If specified direction is left
-            return True if self.world[self.maxY - self.avatarY][self.avatarX - 1].isPassable() else False
+            return True if self.world[self.avatarY][self.avatarX - 1].isPassable() else False
         if (direction == 'right'): # If specified direction is right
-            return True if self.world[self.maxY - self.avatarY][self.avatarX + 1].isPassable() else False
+            return True if self.world[self.avatarY][self.avatarX + 1].isPassable() else False
 
     #
     # Description: Used to move the avatar in the specified direction
@@ -87,6 +88,8 @@ class World:
             self.avatar.setLocation(self.avatar.getX() - 1, self.avatar.getY())
         if (direction == 'right'): # If specified direction is right
             self.avatar.setLocation(self.avatar.getX() + 1, self.avatar.getY())
+        self.avatarX = self.avatar.getX() # Updates self.avatarX with current avatar x
+        self.avatarY = self.avatar.getY() # Updates self.avatarY with current avatar y
         
     #
     # Description: Handles a key pressed and either moves the avatar or modifies torch brightness
@@ -98,28 +101,27 @@ class World:
     #   None
     #
     def handleKey(self, ch):
-        if (ch == 'w') & (self.avatarY < self.height):
-            if self.canMoveAvatar('up'):
-                self.moveAvatar('up')
+        if (ch == 'w') & (self.avatarY < self.height): # If the player clicked 'w' and the move is within bounds
+            if self.canMoveAvatar('up'): # See if the above block is passable
+                self.moveAvatar('up') # If the block is passable, move the avatar up
 
-        elif (ch == 's') & (self.avatarY > 0):
-            if self.canMoveAvatar('down'):
-                self.moveAvatar('down')
+        elif (ch == 's') & (self.avatarY > 0): # If the player clicked 's' and the move is within bounds
+            if self.canMoveAvatar('down'): # See if the below block is passable
+                self.moveAvatar('down') # If the block is passable, move the avatar down
 
-        elif (ch == 'a') & (self.avatar.getX() > 0):
-            if self.canMoveAvatar('left'):
-                self.moveAvatar('left')
+        elif (ch == 'a') & (self.avatar.getX() > 0): # If the player clicked 'a' and the move is within bounds
+            if self.canMoveAvatar('left'): # See if the left block is passable
+                self.moveAvatar('left') # If the block is passable, move the avatar left
 
-        elif (ch == 'd') & (self.avatar.getX() < self.width):
-            if self.canMoveAvatar('right'):
-                self.moveAvatar('right')
+        elif (ch == 'd') & (self.avatar.getX() < self.width): # If the player clicked 'd' and the move is within bounds
+            if self.canMoveAvatar('right'): # See if the right block is passable
+                self.moveAvatar('right') # If the block is passable, move the avatar right
 
-        elif (ch == '+'):
-            self.avatar.increaseTorch()
+        elif (ch == '+'): # If the player clicked '+'
+            self.avatar.increaseTorch() # Increase the torch radius
 
-        elif (ch == '-'):
-            self.avatar.decreaseTorch()
-        self.draw()
+        elif (ch == '-'): # If the player clicked '-'
+            self.avatar.decreaseTorch() # Decrease the torch radius
             
         
     
@@ -133,18 +135,12 @@ class World:
     #   None
     #
     def draw(self):
-        self.avatarX = self.avatar.getX() # Updates self.avatarX with current avatar x
-        self.avatarY = self.avatar.getY() # Updates self.avatarY with current avatar y
         self.setLit(False) # Sets all tiles to unlit
         yCounter = 0 # Counter for row position in self.world
         self.light(self.avatarX, self.avatarY, self.avatar.getTorchRadius()) # Lights tiles around avatar based on torch radius
-        for row in self.world: # For each row in self.world
-            tileX = 0 # Counter for column position in row
-            for tile in row: # For each tile in a row
-                tileY = self.maxY - yCounter # Invert the y position (y is top to bottom)
-                tile.draw(tileX, tileY) # Draw the tile
-                tileX += 1 # Increment column counter
-            yCounter +=1 # Increment row counter
+        for colNum in range(self.height): # Traverse through the column index
+            for rowNum in range(self.width): # For each index (row) in each column
+                self.world[colNum][rowNum].draw(rowNum, colNum) # Draw the current tile
         self.avatar.draw() # Draw the avatar on top of the tiles
     
     #
@@ -188,17 +184,17 @@ class World:
             distance from tile to avatar is less than torch radius
         '''
         if ((currentX == x) and (currentY == y)):
-            self.world[self.maxY - currentY][currentX].setLit(True)
+            self.world[currentY][currentX].setLit(True)
             litTiles += 1
         elif currentX in range(self.width) and \
             currentY in range(self.height) and \
-            not self.world[self.maxY - currentY][currentX].getLit() and \
+            not self.world[currentY][currentX].getLit() and \
             dist < r:
             
-            if (self.world[self.maxY - currentY][currentX].isOpaque() == True): # If a block is opaque (you cannot see through it)
-                self.world[self.maxY - currentY][currentX].setLit(True) # Set the tile as lit
+            if (self.world[currentY][currentX].isOpaque() == True): # If a block is opaque (you cannot see through it)
+                self.world[currentY][currentX].setLit(True) # Set the tile as lit
                 return 1 # Do not light any more tiles after opaque tile
-            self.world[self.maxY - currentY][currentX].setLit(True) # Set the tile as lit
+            self.world[currentY][currentX].setLit(True) # Set the tile as lit
             litTiles += 1 # Increment number of tiles lit
         else: # Base case
             return 0 # Return 0 since no tiles were lit this go around
@@ -208,39 +204,6 @@ class World:
         litTiles += self.lightDFS(x, y, currentX, currentY+1, r) # Light the tile below
         return litTiles # Return the number of tiles lit
 
-    # #
-    # # Description: A recursive function to light up nearby tiles based on torch strength
-    # #     This solution to lightDFS does not wrap around opaque objects
-    # # 
-    # # Inputs:
-    # #   int x: Avatar's x position
-    # #   int y: Avatar's y position
-    # #   int currX: The current x position being looked at
-    # #   int currY: The current y position being looked at
-    # #   float r: radius of the Avatar's torch 
-    # #
-    # # Outputs:
-    # #   Number of tiles lit
-    # #
-    # def lightDFS(self, x, y, currX, currY, r):
-    #     dist = ((currX - x)**2 + (currY - y)**2)**0.5 # Calculates the distance from avatar to current position
-    #     if dist <= r: # If the distance does not exceed the radius of the torch
-    #         self.world[self.maxY - currY][currX].setLit(True) # Set the tile as lit
-    #         litTiles = 1 # Set litTiles equal to 1 since a tile was just lit
-    #         if not ((x==currX) and (y==currY)): # If you are not looking at the avatar's position
-    #             if (self.world[self.maxY - currY][currX].isOpaque() == True): # If a block is opaque (you cannot see through it)
-    #                 return litTiles # Do not light any more tiles after opaque tile
-    #         if ((currX > 0) and (currX <= x)): # If the current x position is less than avatar's x position and is within bounds
-    #             litTiles += self.lightDFS(x, y, currX-1, currY, r) # Light the tile to the left
-    #         if ((currY > 0) and (currY <= y)): # If the current y position is less than avatar's y position and is within bounds
-    #             litTiles += self.lightDFS(x, y, currX, currY-1, r) # Light the tile below
-    #         if ((currX < self.width) and (currX >= x)): # If the current x position is greater than avatar's x position and is within bounds
-    #             litTiles += self.lightDFS(x, y, currX+1, currY, r) # Light the tile to the right
-    #         if ((currY < self.maxY) and (currY >= y)): # If the current y position is greater than avatar's y position and is within bounds
-    #             litTiles += self.lightDFS(x, y, currX, currY+1, r) # Light the tile above
-    #         return litTiles # Return the number of tiles lit
-    #     return 0 # If distance is greater than torch radius, return 0 since no tiles were lit
-            
     #
     # Description: Sets all tiles in the world to a specified lit value
     # 
