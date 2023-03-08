@@ -94,8 +94,7 @@ class Avatar :
     #   None
     #
     def increaseTorch(self):
-        if self.torchRadius < self.MAX_TORCH: # If the torch radius is less than the max radius
-            self.torchRadius += self.TORCH_INCREMENT # Increment the torch radius by increment value
+        self.torchRadius += self.TORCH_INCREMENT # Increment the torch radius by increment value
     
     #
     # Description: Used to decrease the torch radius
@@ -161,7 +160,7 @@ class Avatar :
     # Outputs:
     #   The amount of damage the avatar deals
     #
-    def incurDamage(self):
+    def getDamage(self):
         return self.damage
     
 # Main code to test the avatar class    

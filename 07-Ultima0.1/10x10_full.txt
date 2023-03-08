@@ -9,7 +9,7 @@ G G G G G G G G G G
 G G G G G G G G G G
 G G G G G G G G G G
 G G G G G G G G G G
-G G G G G G G G G G 
+G G G G G G G G G G
 SK 0 1 10 1 1
 SK 0 2 10 1 1
 SK 0 3 10 1 1
@@ -109,6 +109,3 @@ OR 9 6 10 1 2
 OR 9 7 10 1 2
 OR 9 8 10 1 2
 OR 9 9 10 1 2
-
-
-

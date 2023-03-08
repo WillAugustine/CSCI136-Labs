@@ -23,6 +23,8 @@ class TileType(Enum):
 # Class that handles all data and operations on tiles
 class Tile:
 
+    SIZE = 16 # Variable for the pixel size of each tile
+
     #
     # Description: Constructor for the Tile class
     # 
@@ -123,6 +125,16 @@ class Tile:
             tile = pic('blank.gif') # Create picture object based on blank image
             StdDraw.picture(tile, x, y) # Draw the tile
 
+    #
+    # Description: Returns the amount of damage the a tile deals
+    # 
+    # Inputs:
+    #   None
+    #
+    # Outputs:
+    #   1: If tile is lava
+    #   0: If tile is not lava
+    #
     def getDamage(self):
         if self.isLava:
             return 1
