@@ -1,4 +1,4 @@
-2 https://www.mtech.edu/
+1 https://mtech.edu/
 8 https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/fontawesome.min.css
 8 https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/solid.min.css
 8 https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/brands.min.css
@@ -21,6 +21,7 @@
 9 https://impact.mtech.edu/project/23770
 1 https://foundation.mtech.edu/webinar/
 1 https://montanatech.mylegacygift.org/
+1 https://www.mtech.edu/
 8 https://catalog.mtech.edu
 1 https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css
 2 https://mtctsdove.mtech.edu/uPortal/f/welcome/normal/render.uP
@@ -109,6 +110,15 @@
 3 http://windows.microsoft.com/en-us/internet-explorer/download-ie
 8 https://iam.mtech.edu/inquiryform
 8 https://montanatechbookstore.com/
+1 https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css
+1 https://fonts.googleapis.com
+1 https://fonts.gstatic.com
+1 https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap
+2 https://bncvirtual.com/montanatechbookstore.htm
+1 https://www.facebook.com/MontanaTechBookstore/
+1 https://www.instagram.com/montanatechcampusstore/?hl=en
+1 https://mtech.vortxhosting.com/
+3 https://www.google.com/maps/place/Montana+Tech+Bookstore/@46.0122641,-112.5582128,19z/data=!4m12!1m6!3m5!1s0x535b09d1af4ad41d:0xc052be088a66fd4e!2sMontana+Tech+Bookstore!8m2!3d46.0122295!4d-112.5579902!3m4!1s0x535b09d1af4ad41d:0xc052be088a66fd4e!8m2!3d46.0123512!4d-112.5607657657%22
 8 https://www.mtech.edu/about/strategic-plan/
 1 https://mailto:strategicplan@mtech.edu
 8 https://www.instagram.com/montana_tech/?hl=en
