@@ -134,7 +134,7 @@ class World:
     # Outputs:
     #   None
     #
-    def moveAvatar(self, direction):
+    def avatarMove(self, direction):
         newX = self.avatar.getX() # Sets newX to current x
         newY = self.avatar.getY() # Sets newY to current y
         if (direction ==  'up'): # If specified direction is up
@@ -166,16 +166,16 @@ class World:
         self.lock.acquire() # Aquires a lock for threading
 
         if (ch == 'w'): # If the player clicked 'w'
-            self.moveAvatar('up') # If the avatar can move up, move the avatar up
+            self.avatarMove('up') # If the avatar can move up, move the avatar up
 
         elif (ch == 's'): # If the player clicked 's'
-            self.moveAvatar('down') # If the avatar can move down, move the avatar down
+            self.avatarMove('down') # If the avatar can move down, move the avatar down
 
         elif (ch == 'a'): # If the player clicked 'a'
-            self.moveAvatar('left') # If the avatar can move left, move the avatar left
+            self.avatarMove('left') # If the avatar can move left, move the avatar left
 
         elif (ch == 'd'): # If the player clicked 'd'
-            self.moveAvatar('right') # If the avatar can move right, move the avatar right
+            self.avatarMove('right') # If the avatar can move right, move the avatar right
 
         elif (ch == '+'): # If the player clicked '+'
             self.avatar.increaseTorch() # Increase the torch radius
@@ -231,7 +231,7 @@ class World:
     # Outputs:
     #   None
     #
-    def moveMonster(self, x, y, monster):
+    def monsterMove(self, x, y, monster):
         self.lock.acquire() # Aquires a lock for threading
         '''
             If x is within bounds and

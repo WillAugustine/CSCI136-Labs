@@ -55,7 +55,7 @@ class Monster:
         self.hp = hp # Variable for monster's health points
         self.damage = damage # Variable for the amount of damage the monster deals
         self.sleepTime = sleepMs # Variable for the time interval between movements
-        self.damageTimer = 3 # Variable for cycles before damage message goes away
+        self.damageTimer = 0 # Variable for cycles before damage message goes away
 
     #
     # Description: Deals a specified amount of damage to the monster
@@ -67,8 +67,8 @@ class Monster:
     #   None
     #
     def incurDamage(self, points):
-
-        self.damageTimer = 3 # Reset the number of cycles until the damage display goes away
+        if points > 0:
+            self.damageTimer = 3 # Reset the number of cycles until the damage display goes away
         self.hp -= points # Reduce the monster's health points
 
     #
@@ -218,6 +218,6 @@ class Monster:
             self.getNextMonsterPosition(random.choice(directions)) # Get the x and y if the monster were to move in random direction
             while not self.world.monsterCanMove(self.nextX, self.nextY): # While the monster cannot move in the selected direction
                 self.getNextMonsterPosition(random.choice(directions)) # Select another direction
-            self.world.moveMonster(self.nextX, self.nextY, self) # Move the monster
+            self.world.monsterMove(self.nextX, self.nextY, self) # Move the monster
             self.damageTimer -= 1 # Decrement damageTimer (OK if below 0 since only evaluating if greater than 0 - line 113)
             time.sleep(self.sleepTime / 1000) # Have the monster sleep for a specified time from the input file
