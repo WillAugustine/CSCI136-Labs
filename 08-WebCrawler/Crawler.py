@@ -42,7 +42,8 @@ def crawl(depth, link, linkDictionary):
                 currLink = hrefLink[6:-1] # Removes 'href=' and quotes around link
                 if (currLink[:4] == "http"): # If the current link is a whole path (begins with 'http')
                     crawl(depth-1, currLink, linkDictionary)
-        except: # If there is an error reading a webpage
+        except Exception as e: # If there is an error reading a webpage
+            print(e)
             pass # Move on
  
     
