@@ -53,6 +53,7 @@ def main():
                 endY = stddraw.mouseY()
                 # Draw the line segment.
                 stddraw.line(startX, startY, endX, endY)
+                print(f"({startX}, {startY}) -> ({endX}, {endY})")
                 # Set flag to start new line on next mouse click.
                 startNewLine = True
             # Handle case where mouse click indicates start of line.
