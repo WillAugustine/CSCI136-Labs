@@ -7,7 +7,9 @@ from datetime import datetime
 import socket
 import threading
 import random
+import stddraw
 import sys
+import os
 
 # These are the 20 Magic 8 Ball responses:
 lines = []
@@ -21,6 +23,7 @@ requestCount = 0
 # Lock for updating request counter.
 lock = threading.Lock()
 
+exitFlag = False
 
 # The client_thread() function processes individual client requests.   
 # A client object is passed to the function.     
@@ -28,6 +31,8 @@ def client_thread(client):
     # Update the request count, the number of requests the server has handled.
     global requestCount
     global lock
+    global exitFlag
+    global lines
     # Lock to avoid concurrency issues.
     lock.acquire()
     requestCount = requestCount + 1
@@ -44,17 +49,19 @@ def client_thread(client):
     # print(f"command on server: {command}")
     if command == "ADD":
         # print("Adding")
-        x1 = stringRecieved[1]
-        y1 = stringRecieved[2]
-        x2 = stringRecieved[3]
-        y2 = stringRecieved[4]
+        x1 = float(stringRecieved[1])
+        y1 = float(stringRecieved[2])
+        x2 = float(stringRecieved[3])
+        y2 = float(stringRecieved[4])
         line = {
             'x1': x1,
             'y1': y1,
             'x2': x2,
             'y2': y2,
         }
+        lock.acquire()
         lines.append(line)
+        lock.release()
     if command == "GET":
         lineString = str(len(lines))
         for line in lines:
@@ -65,7 +72,20 @@ def client_thread(client):
         print("clear")
     if command == "QUIT":
         print("quit")
+    if command == "CLOSE":
+        print("\nStopping server...")
+        exitFlag = True
+        os.system('python SharedCanvasClient.py localhost close')
+        # try:
+        #     os.system('cls')
+        # except:
+        #     try:
+        #         os.system('clear')
+        #     except:
+        #         pass
+        
     client.close()
+
 
 
 # main() method
@@ -107,13 +127,16 @@ def main():
     
     # Now wait for client requests.
     print('Waiting for clients to make requests.')
-    while True:
+    while not exitFlag:
         # Block and wait for a client request.
         client, addr = server.accept()
         # Create and start a new client_thread to handle the request.
         p = threading.Thread(target=client_thread, args=(client,))
         p.start()
+        # print(f"exitFlag at end of while loop: {exitFlag}")
     
+    print("Bye Bye")
+
     # Close the server.
     # This line will not be reached, because there is no mechanism to exit the infinite loop above.
     server.close()
