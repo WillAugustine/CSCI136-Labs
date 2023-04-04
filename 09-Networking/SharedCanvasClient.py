@@ -15,13 +15,13 @@ max_size = 1048576
 
 drawing = True
 
-def connectToServer():
-    global drawing
+port = 6789
+
+host = ""
+
+def connectSendRecieve(command):
+    global drawing, port, host
     try:
-        # Get the host command line argument.
-        host = sys.argv[1]
-        # Hard-coded port for this application.
-        port = 6789
         
         address = (host, port)
         
@@ -29,16 +29,41 @@ def connectToServer():
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Try to connect to the server.
         client.connect(address)
-        return client
+        client.sendall(bytes(command, 'utf-8'))
+        # Get the response.
+        data = client.recv(max_size)
+        # Decode the response as a UTF-8 string.
+        response = data.decode("UTF-8")
+        
+        # Close the connection to the server.
+        client.close()
+        
+        #print(strResponse)
+        
+        return response
         
     # If an exception occurred in binding or initially trying to connect, print an error message and exit.
     except:
         print("An error occurred when attempting to connect to the server at the given address and port.")
         return
+    
+def drawFromGet(command):
+    stddraw.clear()
+    lines = command.split(" ")
+    # print(lines)
+    numOfLines = int(lines[0])
+    for i in range(numOfLines):
+        startIndex = (i * 4) + 1
+        x1 = float(lines[startIndex])
+        y1 = float(lines[startIndex + 1])
+        x2 = float(lines[startIndex + 2])
+        y2 = float(lines[startIndex + 3])
+        stddraw.line(x1, y1, x2, y2)
+
 
 # main() method
 def main():
-    global drawing
+    global drawing, port, host
     # Make sure the host argument is passed.
     # The host argument specifies the (local) host.
     # This can be localhost or 127.0.0.1 for the loopback address.
@@ -54,16 +79,15 @@ def main():
     # Bind to the host and port and try to connect.
         
     try:
-        client = connectToServer()
-        # Send a request to the server.
-        client.sendall(b'Hey!')
-        # Get the response.
-        data = client.recv(max_size)
+        host = sys.argv[1]
+        startX = 0.0
+        startY = 0.0
+        endX = 0.0
+        endY = 0.0
         stddraw.clear()
         stddraw.setPenColor(stddraw.BLACK)
         startNewLine = True
         while drawing:
-            client = connectToServer()
             # Check for mouse press/click.
             if stddraw.mousePressed():
                 # Draw a point to show the user where the click was.
@@ -74,9 +98,9 @@ def main():
                     endX = stddraw.mouseX()
                     endY = stddraw.mouseY()
                     # Draw the line segment.
-                    lineToSend = f"ADD {startX} {startY} {endX} {endY}"
+                    command = f"ADD {round(startX, 3)} {round(startY, 3)} {round(endX, 3)} {round(endY, 3)}"
                     # print("Sending line")
-                    client.sendall(bytes(lineToSend, 'utf-8'))
+                    response = connectSendRecieve(command)
                     # print("\tSent!")
                     # Set flag to start new line on next mouse click.
                     startNewLine = True
@@ -90,47 +114,32 @@ def main():
             # Check for key press.
             if stddraw.hasNextKeyTyped():
                 # Retrieve the character.
-                ch = stddraw.nextKeyTyped()
+                ch = stddraw.nextKeyTyped().lower()
                 # If it is a c, clear the canvas.
                 if ch == 'c':
-                    client.sendall(bytes("CLEAR", 'utf-8'))
+                    response = connectSendRecieve("CLEAR")
                 # If it is a q, then quit the infinite loop via break.
                 if ch == 'q':
-                    client.sendall(bytes("QUIT", 'utf-8'))
+                    response = connectSendRecieve("QUIT")
                     break
                 if ch == 'z':
-                    client.sendall(bytes("CLOSE", 'utf-8'))
+                    response = connectSendRecieve("CLOSE")
                     break
             # Show with 100 ms delay. The value could be decreased to be more responsive.
             stddraw.show(100)
             
-            print("Sending GET")
-            client.sendall(bytes("GET", 'utf-8'))
-            print("\tSent!")
-            data = client.recv(max_size)
-            print("Data recieved")
-            # Decode the response as a UTF-8 string.
-            strResponse = data.decode("UTF-8")
-            lines = strResponse.split(" ")
-            # print(lines)
-            numOfLines = int(lines[0])
-            for i in range(numOfLines):
-                startIndex = (i * 4) + 1
-                x1 = float(lines[startIndex])
-                y1 = float(lines[startIndex + 1])
-                x2 = float(lines[startIndex + 2])
-                y2 = float(lines[startIndex + 3])
-                stddraw.line(x1, y1, x2, y2)
-            # client.close()
-        client.close()
+            # print("Sending GET")
+            response = connectSendRecieve("GET")
+            drawFromGet(response)
+            # print("\tSent!")
+            
+        connectSendRecieve("QUIT")
 
 
     # If and exception occurs, print an error message and return.
     except Exception as e:
         print("An error occurred when making a request to the server.")
         print(f"ERROR: {e}")
-        # Close the connection to the server.
-        client.close()
         return
 
 

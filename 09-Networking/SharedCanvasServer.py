@@ -15,74 +15,84 @@ import os
 lines = []
 
 # Maximum size (in bytes) to retrieve from clients
-max_size = 1000
+max_size = 2000
 
-# Request counter.
-requestCount = 0
 
 # Lock for updating request counter.
 lock = threading.Lock()
 
 exitFlag = False
 
+def GET():
+    global lines
+    lock.acquire()
+    lineString = str(len(lines))
+    for line in lines:
+        currLine = f" {line['x1']} {line['y1']} {line['x2']} {line['y2']}"
+        lineString += currLine
+    lock.release()
+    return lineString
+    
+
+def ADD(command):
+    global lines
+    stringRecieved = command.split(" ")
+    x1 = float(stringRecieved[1])
+    y1 = float(stringRecieved[2])
+    x2 = float(stringRecieved[3])
+    y2 = float(stringRecieved[4])
+    lock.acquire()
+    line = {
+        'x1': x1,
+        'y1': y1,
+        'x2': x2,
+        'y2': y2,
+    }
+    lines.append(line)
+    lock.release()
+    return "OK"
+
+def CLEAR():
+    global lines
+    lock.acquire()
+    lines.clear()
+    lock.release()
+    print(f"lines: {lines}")
+    return "OK"
+
+def QUIT():
+    return "OK"
+
+def CLOSE():
+    global exitFlag
+    exitFlag = True
+    os.system('python SharedCanvasClient.py localhost close')
+    return "\nStopping server..."
+
+def processCommand(command, client):
+    if (command[0:3] == "GET"):
+        return GET()
+    elif (command[0:3] == "ADD"):
+        return ADD(command)
+    elif (command[0:5] == "CLEAR"):
+        print("Clearing...")
+        return CLEAR()
+    elif (command[0:4] == "QUIT"):
+        print(f"GOODBYE: {client}")
+        return QUIT()
+    elif (command[0:5] == "CLOSE"):
+        message = CLOSE()
+        print(message)
+        return message
+
 # The client_thread() function processes individual client requests.   
 # A client object is passed to the function.     
-def client_thread(client): 
-    # Update the request count, the number of requests the server has handled.
-    global requestCount
-    global lock
-    global exitFlag
-    global lines
-    # Lock to avoid concurrency issues.
-    lock.acquire()
-    requestCount = requestCount + 1
-    # Grab a local copy since the global value could change before subsequent use.
-    count = requestCount
-    lock.release()
-    
+def client_thread(client):
     # Receive the request data (in bytes).
     data = client.recv(max_size)
     # print(f"data on server: {data}")
-    stringRecieved = data.decode("UTF-8").split(" ")
-    # print(f"stringRecieved on server: {stringRecieved}")
-    command = stringRecieved[0]
-    # print(f"command on server: {command}")
-    if command == "ADD":
-        # print("Adding")
-        x1 = float(stringRecieved[1])
-        y1 = float(stringRecieved[2])
-        x2 = float(stringRecieved[3])
-        y2 = float(stringRecieved[4])
-        line = {
-            'x1': x1,
-            'y1': y1,
-            'x2': x2,
-            'y2': y2,
-        }
-        lock.acquire()
-        lines.append(line)
-        lock.release()
-    if command == "GET":
-        lineString = str(len(lines))
-        for line in lines:
-            currLine = f" {line['x1']} {line['y1']} {line['x2']} {line['y2']}"
-            lineString += currLine
-        client.sendall(bytes(lineString, 'utf-8'))
-    if command == "CLEAR":
-        print("clear")
-    if command == "QUIT":
-        print("quit")
-    if command == "CLOSE":
-        print("\nStopping server...")
-        exitFlag = True
-        os.system('python SharedCanvasClient.py localhost close')
-        # try:
-        #     os.system('cls')
-        # except:
-        #     try:
-        #         os.system('clear')
-        #     except:
-        #         pass
+    command = data.decode("UTF-8")
+    client.sendall(bytes(processCommand(command, client), 'utf-8'))
         
     client.close()
 
@@ -118,7 +128,6 @@ def main():
         # Listen for requests. Allow a "backlog" of 5, meaning roughly 5 simultaneous connections allowed.
         server.listen(5)
         
-        print(f"HELLO: {server}")
     # If an exception occurred in binding or initially trying to listen, print an error message and exit.
     except Exception as e:
         print("An error occurred when attempting to bind to the address and port.")
@@ -130,12 +139,12 @@ def main():
     while not exitFlag:
         # Block and wait for a client request.
         client, addr = server.accept()
+        print(f"HELLO: {client}")
         # Create and start a new client_thread to handle the request.
         p = threading.Thread(target=client_thread, args=(client,))
         p.start()
         # print(f"exitFlag at end of while loop: {exitFlag}")
     
-    print("Bye Bye")
 
     # Close the server.
     # This line will not be reached, because there is no mechanism to exit the infinite loop above.
