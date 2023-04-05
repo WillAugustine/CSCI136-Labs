@@ -115,7 +115,7 @@ def main():
         # Get the host command line argument.
         host = sys.argv[1]
         # Hard-coded port for this application.
-        port = 6789
+        port = 5000
         
         address = (host, port)
         

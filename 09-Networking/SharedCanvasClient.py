@@ -15,7 +15,7 @@ max_size = 1048576
 
 drawing = True
 
-port = 6789
+port = 5000
 
 host = ""
 
