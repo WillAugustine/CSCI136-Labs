@@ -1,6 +1,7 @@
 #include <iostream>
 #include <random>
 #include <string>
+#include <time.h>
 
 using namespace std;
 
@@ -15,10 +16,8 @@ int main() {
 
 	int minRandom = 1;
 	int maxRandom = 10;
-	random_device rd;
-	mt19937 gen(rd());
-	uniform_int_distribution<> distr(minRandom, maxRandom);
-	int randomNum = distr(gen);
+	srand(time(NULL));
+	int randomNum = rand() % maxRandom + minRandom;
 
 	for (int i = 0; i < 3; i++) {
 

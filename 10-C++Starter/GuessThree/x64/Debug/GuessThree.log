@@ -1,1 +1,3 @@
-﻿  GuessThree.vcxproj -> C:\Users\willa\OneDrive\Desktop\School\2022-2023_SPRING\TA\CSCI136-Labs\10-C++Starter\GuessThree\x64\Debug\GuessThree.exe
+﻿  GuessThree.cpp
+C:\Users\waugustine\OneDrive\Desktop\School\2022-2023_SPRING\TA\CSCI136-Labs\10-C++Starter\GuessThree\GuessThree.cpp(23,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  GuessThree.vcxproj -> C:\Users\waugustine\OneDrive\Desktop\School\2022-2023_SPRING\TA\CSCI136-Labs\10-C++Starter\GuessThree\x64\Debug\GuessThree.exe

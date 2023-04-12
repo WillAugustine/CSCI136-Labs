@@ -1,2 +1,3 @@
 ﻿  GuessUntil.cpp
-  GuessUntil.vcxproj -> C:\Users\willa\OneDrive\Desktop\School\2022-2023_SPRING\TA\CSCI136-Labs\10-C++Starter\GuessUntil\x64\Debug\GuessUntil.exe
+C:\Users\waugustine\OneDrive\Desktop\School\2022-2023_SPRING\TA\CSCI136-Labs\10-C++Starter\GuessUntil\GuessUntil.cpp(19,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  GuessUntil.vcxproj -> C:\Users\waugustine\OneDrive\Desktop\School\2022-2023_SPRING\TA\CSCI136-Labs\10-C++Starter\GuessUntil\x64\Debug\GuessUntil.exe

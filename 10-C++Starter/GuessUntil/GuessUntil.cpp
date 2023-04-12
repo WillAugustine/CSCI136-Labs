@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include <time.h>
 
 using namespace std;
 
@@ -15,10 +16,9 @@ int main() {
 
 	int minRandom = 1;
 	int maxRandom = 100;
-	random_device rd;
-	mt19937 gen(rd());
-	uniform_int_distribution<> distr(minRandom, maxRandom);
-	int randomNum = distr(gen);
+	srand(time(NULL));
+	int randomNum = rand() % maxRandom + minRandom;
+
 	string input = "-1";
 	int userGuess = stoi(input);
 
@@ -26,7 +26,7 @@ int main() {
 		input = "-1";
 
 		while (!validInput(input)) {
-			cout << "\nGuess a number between 1 and 10: ";
+			cout << "\nGuess a number between 1 and 100: ";
 			cin >> input;
 		}
 		userGuess = stoi(input);
