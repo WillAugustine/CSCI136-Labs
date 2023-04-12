@@ -48,8 +48,8 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
   - [Crawler.py](08-WebCrawler/Crawler.py)
   
 - Lab 9 - Networking:
-  - [SharedCanvasServer.py](09-Networking/SharedCanvasServer.py]
-  - [SharedCanvasClient.py](09-Networking/SharedCanvasClient.py]
+  - [SharedCanvasServer.py](09-Networking/SharedCanvasServer.py)
+  - [SharedCanvasClient.py](09-Networking/SharedCanvasClient.py)
   
 - Lab 10 - C++ Starter:
   - [Distance.cpp](10-C++Starter/Distance/Distance.cpp)
