@@ -11,6 +11,8 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
 - Lab 6: [Ultima 0](LabInstructions/CSCI136FundamentalsOfCS2-2023-02-24-Assignment6-Ultimat0.pdf)
 - Lab 7: [Ultima 0.1](LabInstructions/CSCI136FundamentalsOfCS2-2023-03-08-Assignment7-Ultimat0dot1.pdf)
 - Lab 8: [Web Crawler](LabInstructions/CSCI136FundamentalsOfCS2-2023-03-22-Assignment8-RegexCrawler.pdf)
+- Lab 9: [Networking](LabInstructions/CSCI136FundamentalsOfCS2-2023-03-29-Assignment9-Networking.pdf)
+- Lab 10: [C++ Starter](LabInstructions/CSCI136FundamentalsOfCS2-2023-04-12-Assignment10-IntroCPlusPlus.pdf)
 
 ## Lab Solutions:
 - Lab 1 - Benford:
@@ -44,3 +46,13 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
   
 - Lab 8 - Web Crawler:
   - [Crawler.py](08-WebCrawler/Crawler.py)
+  
+- Lab 9 - Networking:
+  - [SharedCanvasServer.py](09-Networking/SharedCanvasServer.py)
+  - [SharedCanvasClient.py](09-Networking/SharedCanvasClient.py)
+  
+- Lab 10 - C++ Starter:
+  - [Distance.cpp](10-C++Starter/Distance/Distance.cpp)
+  - [GuessUntil.cpp](10-C++Starter/GuessUntil/GuessUntil.cpp)
+  - [GuessThree.cpp](10-C++Starter/GuessThree/GuessThree.cpp)
+  
