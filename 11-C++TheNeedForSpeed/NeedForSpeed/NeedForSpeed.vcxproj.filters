@@ -19,4 +19,36 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\usa13509.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="..\points1.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="..\points2.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="..\points3.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="..\points3b.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="..\points5.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="..\points7.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="..\tsp10.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="..\tsp100.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="..\tsp1000.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

@@ -129,6 +129,18 @@
   <ItemGroup>
     <ClCompile Include="GreedyPath.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\points1.txt" />
+    <Text Include="..\points2.txt" />
+    <Text Include="..\points3.txt" />
+    <Text Include="..\points3b.txt" />
+    <Text Include="..\points5.txt" />
+    <Text Include="..\points7.txt" />
+    <Text Include="..\tsp10.txt" />
+    <Text Include="..\tsp100.txt" />
+    <Text Include="..\tsp1000.txt" />
+    <Text Include="..\usa13509.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
