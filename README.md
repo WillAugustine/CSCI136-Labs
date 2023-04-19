@@ -13,6 +13,7 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
 - Lab 8: [Web Crawler](LabInstructions/CSCI136FundamentalsOfCS2-2023-03-22-Assignment8-RegexCrawler.pdf)
 - Lab 9: [Networking](LabInstructions/CSCI136FundamentalsOfCS2-2023-03-29-Assignment9-Networking.pdf)
 - Lab 10: [C++ Starter](LabInstructions/CSCI136FundamentalsOfCS2-2023-04-12-Assignment10-IntroCPlusPlus.pdf)
+- Lab 11: [C++ The Need For Speed](LabInstructions/CSCI136FundamentalsOfCS2-2023-04-19-Assignment11-CPPNeedForSpeed.pdf)
 
 ## Lab Solutions:
 - Lab 1 - Benford:
@@ -55,4 +56,7 @@ Labs and my personal solutions to all Fundamentals of Computer Science II (CSCI 
   - [Distance.cpp](10-C++Starter/Distance/Distance.cpp)
   - [GuessUntil.cpp](10-C++Starter/GuessUntil/GuessUntil.cpp)
   - [GuessThree.cpp](10-C++Starter/GuessThree/GuessThree.cpp)
+  
+- Lab 11 - C++ The Need For Speed:
+  - [GreedyPath.cpp](11-C++TheNeedForSpeed/NeedForSpeed/GreedyPath.cpp)
   
